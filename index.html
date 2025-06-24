@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>summa - Controla tus finanzas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><filter id="noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .text-brand-primary { color: #D64A8D; }
+        .text-gradient {
+            background-image: linear-gradient(to right, #D64A8D, #8E44AD);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .dot-gradient {
+            background-image: linear-gradient(to right, #D64A8D, #8E44AD);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-200 text-gray-800">
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+        <!-- Header -->
+        <header class="flex justify-between items-center py-6">
+            <div class="text-2xl font-bold text-brand-primary">summa</div>
+            <div class="hidden md:flex items-center">
+                <nav class="flex space-x-8">
+                    <a href="#" class="text-gray-700 font-medium hover:text-brand-primary">¿Cómo funciona?</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-brand-primary">Seguridad</a>
+                    <a href="#" class="text-gray-700 font-medium hover:text-brand-primary">Comunidad</a>
+                </nav>
+                <div class="ml-8 flex items-center space-x-2">
+                    <a href="#" class="px-4 py-2 text-gray-700 font-medium rounded-lg hover:bg-gray-100">Ingresar</a>
+                    <a href="register.html" class="px-4 py-2 rounded-lg text-white font-medium bg-[#D64A8D] hover:opacity-95 transition-opacity">Registrarse</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="text-center my-16 sm:my-24">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 leading-tight">
+                <span class="text-gradient">Toma el control</span> de tus finanzas
+            </h1>
+            <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-700">
+                Automatiza el registro y monitoreo de tus gastos
+            </p>
+        </section>
+
+        <!-- Onboarding Steps Section -->
+        <section class="pt-32 pb-16">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-900 mb-12">Empezar es más fácil de lo que crees</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
+                    <!-- Step 1 -->
+                    <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden">
+                        <div class="h-8 bg-black/5 flex items-center px-4 border-b border-white/20">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 rounded-full dot-gradient"></div>
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold text-gray-900">Conecta tu correo</h3>
+                            <p class="mt-2 text-gray-800">Configura el reenvío automático de los correos donde recibes notificaciones de tus transacciones</p>
+                        </div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden">
+                        <div class="h-8 bg-black/5 flex items-center px-4 border-b border-white/20">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                                <div class="w-3 h-3 rounded-full dot-gradient"></div>
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold text-gray-900">Detectamos tus gastos</h3>
+                            <p class="mt-2 text-gray-800">Usamos IA para leer, interpretar y clasificar cada transacción automáticamente</p>
+                        </div>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden">
+                        <div class="h-8 bg-black/5 flex items-center px-4 border-b border-white/20">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                                <div class="w-3 h-3 rounded-full dot-gradient"></div>
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold text-gray-900">Valida con un swipe</h3>
+                            <p class="mt-2 text-gray-800">Confirma o ajusta tus gastos fácilmente desde la app con un simple gesto</p>
+                        </div>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden">
+                        <div class="h-8 bg-black/5 flex items-center px-4 border-b border-white/20">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                                <div class="w-3 h-3 rounded-full dot-gradient"></div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold text-gray-900">Sigue tu presupuesto</h3>
+                            <p class="mt-2 text-gray-800">Ve cómo avanzas con tus metas mes a mes, de forma clara y organizada</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="text-center pt-10 pb-4 text-gray-700">
+            <p>&copy; 2024 summa. Todos los derechos reservados</p>
+        </footer>
+    </main>
+
+</body>
+</html> 

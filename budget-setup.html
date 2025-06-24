@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurar Presupuesto - summa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><filter id="noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .text-brand-primary { color: #D64A8D; }
+        .text-gradient {
+            background-image: linear-gradient(to right, #D64A8D, #8E44AD);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .dot-gradient {
+            background-image: linear-gradient(to right, #D64A8D, #8E44AD);
+        }
+        .form-input {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #D64A8D;
+            box-shadow: 0 0 0 3px rgba(214, 74, 141, 0.1);
+        }
+        .category-input::-webkit-inner-spin-button, 
+        .category-input::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-200 text-gray-800">
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+        <!-- Header -->
+        <header class="flex justify-between items-center py-6">
+            <div class="text-2xl font-bold text-brand-primary">summa</div>
+            <a href="index.html" class="text-gray-700 font-medium hover:text-brand-primary">← Volver al inicio</a>
+        </header>
+
+        <!-- Budget Setup Section -->
+        <section class="max-w-4xl mx-auto my-16">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+                    Configura tu <span class="text-gradient">presupuesto</span>
+                </h1>
+                <p class="mt-4 text-lg text-gray-700">
+                    Define tus metas financieras para empezar
+                </p>
+            </div>
+
+            <!-- Registration Steps -->
+            <div class="w-full px-4 sm:px-0 mb-16">
+                <div class="relative flex justify-between items-start w-full">
+                    <div class="absolute top-4 left-0 w-full h-0.5 bg-white/50 -translate-y-1/2 z-0"></div>
+                    <div id="progress-line" class="absolute top-4 left-0 h-0.5 dot-gradient -translate-y-1/2 z-0 transition-all duration-500" style="width: 37.5%;"></div>
+                    <div class="z-10 text-center w-1/4">
+                        <div class="w-8 h-8 rounded-full dot-gradient text-white flex items-center justify-center mx-auto font-bold text-lg">1</div>
+                        <p class="mt-3 text-xs sm:text-sm font-semibold text-brand-primary">Datos personales</p>
+                    </div>
+                    <div class="z-10 text-center w-1/4">
+                        <div class="w-8 h-8 rounded-full dot-gradient text-white flex items-center justify-center mx-auto font-bold text-lg">2</div>
+                        <p class="mt-3 text-xs sm:text-sm font-semibold text-brand-primary">Configurar presupuesto</p>
+                    </div>
+                    <div class="z-10 text-center w-1/4">
+                        <div class="w-8 h-8 rounded-full bg-white/60 backdrop-blur-sm text-gray-600 flex items-center justify-center mx-auto font-bold text-lg">3</div>
+                        <p class="mt-3 text-xs sm:text-sm font-semibold text-gray-600">Conectar correo</p>
+                    </div>
+                    <div class="z-10 text-center w-1/4">
+                        <div class="w-8 h-8 rounded-full bg-white/60 backdrop-blur-sm text-gray-600 flex items-center justify-center mx-auto font-bold text-lg">4</div>
+                        <p class="mt-3 text-xs sm:text-sm font-semibold text-gray-600">¡Listo!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form id="budgetForm" class="space-y-10">
+                <!-- Income & Savings -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden p-8 space-y-4">
+                        <h3 class="text-xl font-bold text-gray-900">Ingresos y Ahorro</h3>
+                        <div>
+                            <label for="monthlyIncome" class="block text-sm font-medium text-gray-700 mb-2">Ingreso mensual (USD)</label>
+                            <input type="number" id="monthlyIncome" placeholder="Ej: 3000" class="w-full px-4 py-3 rounded-lg form-input text-gray-900 placeholder-gray-500">
+                            <button type="button" id="skipIncome" class="mt-2 text-sm text-brand-primary hover:underline">Omitir por ahora</button>
+                        </div>
+                        <div>
+                            <label for="savingsPercentage" class="block text-sm font-medium text-gray-700 mb-2">% Ahorro / Inversión</label>
+                            <input type="number" id="savingsPercentage" value="20" class="w-full px-4 py-3 rounded-lg form-input text-gray-900 placeholder-gray-500">
+                        </div>
+                    </div>
+                    <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden p-8 flex flex-col justify-center items-center text-center">
+                        <h3 class="text-xl font-bold text-gray-900">Disponible para Gastos</h3>
+                        <p id="totalForExpenses" class="text-4xl font-extrabold text-gradient my-2">$2,400</p>
+                        <p class="text-gray-700">Este es el monto que distribuirás en las categorías de abajo</p>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">Distribución de Gastos</h3>
+                        <button type="button" id="resetButton" class="text-sm font-medium text-brand-primary hover:underline">Resetear</button>
+                    </div>
+                    <div id="categoriesContainer" class="flex flex-col md:flex-row md:space-x-8 space-y-4 md:space-y-0">
+                        <!-- Categories will be injected here by JavaScript -->
+                    </div>
+                    <div class="mt-8 max-w-md mx-auto">
+                        <div class="flex justify-between text-sm font-semibold text-gray-700 mb-2 px-1">
+                            <span>Asignado</span>
+                            <span>Restante</span>
+                        </div>
+                        <div id="progressBarContainer" class="w-full bg-gray-200 rounded-full h-8 relative overflow-hidden transition-colors duration-300">
+                            <!-- Progress Fill -->
+                            <div id="progressBar" class="h-full rounded-full transition-all duration-300 ease-in-out dot-gradient"></div>
+                            <!-- Text Inside -->
+                            <div class="absolute inset-0 flex justify-between items-center px-4">
+                                <span id="allocatedText" class="font-bold text-white transition-opacity duration-300"></span>
+                                <span id="remainingText" class="font-bold text-gray-700 transition-opacity duration-300"></span>
+                            </div>
+                            <!-- Overflow Text -->
+                            <div id="overflowText" class="absolute inset-0 flex justify-center items-center font-bold text-white hidden"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="pt-2 flex justify-end">
+                    <button type="submit" id="submitButton" class="px-8 py-3 rounded-lg text-white font-semibold bg-[#D64A8D] hover:opacity-95 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed">
+                        Siguiente
+                    </button>
+                </div>
+            </form>
+        </section>
+        
+        <footer class="text-center pt-10 pb-4 text-gray-700">
+            <p>&copy; 2024 summa. Todos los derechos reservados</p>
+        </footer>
+    </main>
+
+    <script>
+        // --- SUPABASE CLIENT ---
+        const supabaseUrl = 'https://lvzoiylogngxpdzblxwg.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2em9peWxvZ25neHBkemJseHdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NTQ0NzEsImV4cCI6MjA2NjEzMDQ3MX0.zMHL5kyzkIszJjaE3i6t1m_P0V8TO-VH9KiDp0e5CPQ';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // --- DOM ELEMENTS ---
+        const monthlyIncomeEl = document.getElementById('monthlyIncome');
+        const skipIncomeBtn = document.getElementById('skipIncome');
+        const savingsPercentageEl = document.getElementById('savingsPercentage');
+        const totalForExpensesEl = document.getElementById('totalForExpenses');
+        const categoriesContainer = document.getElementById('categoriesContainer');
+        const submitButton = document.getElementById('submitButton');
+        const resetButton = document.getElementById('resetButton');
+
+        let categories = [];
+        let incomeSkipped = false;
+
+        // --- FUNCTIONS ---
+        const roundToNearestTen = (num) => Math.round(num / 10) * 10;
+        
+        const formatCurrency = (num) => {
+            if (incomeSkipped) return '---';
+            return `$${num.toLocaleString('en-US')}`;
+        };
+
+        const fetchCategories = async () => {
+            try {
+                const { data, error } = await supabase.from('categories').select('category_name, optimal_value');
+                if (error) throw error;
+                categories = data;
+                renderCategories();
+                updateCalculations();
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+                categoriesContainer.innerHTML = '<p class="text-red-500 col-span-2">No se pudieron cargar las categorías. Intenta recargar la página.</p>';
+            }
+        };
+
+        const renderCategories = () => {
+            categoriesContainer.innerHTML = '';
+            
+            const midPoint = Math.ceil(categories.length / 2);
+            const leftColumnCategories = categories.slice(0, midPoint);
+            const rightColumnCategories = categories.slice(midPoint);
+
+            const leftColumnDiv = document.createElement('div');
+            leftColumnDiv.className = 'space-y-4 flex-1';
+            
+            const rightColumnDiv = document.createElement('div');
+            rightColumnDiv.className = 'space-y-4 flex-1';
+
+            const createCategoryElement = (cat) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'flex items-center space-x-3';
+                const initialValue = parseInt(cat.optimal_value, 10) || 0;
+                categoryDiv.innerHTML = `
+                    <div class="flex-1 flex items-baseline space-x-2">
+                        <span class="text-gray-800">${cat.category_name}</span>
+                        <span class="text-xs text-gray-500">(${cat.optimal_value})</span>
+                    </div>
+                    <div class="flex items-center bg-white/40 rounded-lg">
+                        <input type="number" 
+                               value="${initialValue}"
+                               placeholder="0" 
+                               class="category-input w-16 text-right font-semibold bg-transparent py-2 px-3 focus:outline-none"
+                               data-category-name="${cat.category_name}">
+                        <span class="pr-3 font-semibold text-gray-600">%</span>
+                    </div>
+                    <span class="w-24 text-right font-medium text-brand-primary" id="amount-${cat.category_name}">$0</span>
+                `;
+                return categoryDiv;
+            };
+
+            leftColumnCategories.forEach(cat => {
+                leftColumnDiv.appendChild(createCategoryElement(cat));
+            });
+
+            rightColumnCategories.forEach(cat => {
+                rightColumnDiv.appendChild(createCategoryElement(cat));
+            });
+
+            categoriesContainer.appendChild(leftColumnDiv);
+            categoriesContainer.appendChild(rightColumnDiv);
+        };
+
+        const updateCalculations = () => {
+            const income = parseFloat(monthlyIncomeEl.value) || 0;
+            const savings = parseFloat(savingsPercentageEl.value) || 0;
+
+            const totalForExpenses = income > 0 ? income * (1 - savings / 100) : 0;
+            totalForExpensesEl.textContent = formatCurrency(roundToNearestTen(totalForExpenses));
+
+            let totalAllocated = 0;
+            const categoryInputs = document.querySelectorAll('.category-input');
+            
+            categoryInputs.forEach(input => {
+                const percentage = parseFloat(input.value) || 0;
+                totalAllocated += percentage;
+                const categoryName = input.dataset.categoryName;
+                const amountEl = document.getElementById(`amount-${categoryName}`);
+                if (amountEl) {
+                    const amount = totalForExpenses * (percentage / 100);
+                    amountEl.textContent = formatCurrency(roundToNearestTen(amount));
+                }
+            });
+
+            const roundedTotalAllocated = Math.round(totalAllocated);
+
+            const allocatedTextEl = document.getElementById('allocatedText');
+            const remainingTextEl = document.getElementById('remainingText');
+            const overflowTextEl = document.getElementById('overflowText');
+            const progressBar = document.getElementById('progressBar');
+            const progressBarContainer = document.getElementById('progressBarContainer');
+
+            if (progressBar && progressBarContainer && allocatedTextEl && remainingTextEl && overflowTextEl) {
+                // Reset to default state
+                progressBarContainer.classList.remove('bg-gray-700');
+                progressBarContainer.classList.add('bg-gray-200');
+                allocatedTextEl.classList.remove('hidden');
+                remainingTextEl.classList.remove('hidden');
+                overflowTextEl.classList.add('hidden');
+                progressBar.classList.remove('hidden');
+
+                if (roundedTotalAllocated > 100) {
+                    progressBarContainer.classList.add('bg-gray-700');
+                    progressBarContainer.classList.remove('bg-gray-200');
+                    
+                    allocatedTextEl.classList.add('hidden');
+                    remainingTextEl.classList.add('hidden');
+                    progressBar.classList.add('hidden');
+                    
+                    overflowTextEl.classList.remove('hidden');
+                    overflowTextEl.textContent = `Exceso: ${roundedTotalAllocated - 100}%`;
+                } else {
+                    progressBar.style.width = `${roundedTotalAllocated}%`;
+                    allocatedTextEl.textContent = `${roundedTotalAllocated}%`;
+                    remainingTextEl.textContent = `${100 - roundedTotalAllocated}%`;
+
+                    // Hide text if it doesn't fit to avoid visual clutter
+                    allocatedTextEl.classList.toggle('opacity-0', roundedTotalAllocated < 15);
+                    remainingTextEl.classList.toggle('opacity-0', (100 - roundedTotalAllocated) < 15);
+                }
+            }
+
+            submitButton.disabled = roundedTotalAllocated !== 100;
+        };
+        
+        // --- EVENT LISTENERS ---
+        monthlyIncomeEl.addEventListener('input', updateCalculations);
+        savingsPercentageEl.addEventListener('input', updateCalculations);
+        
+        categoriesContainer.addEventListener('input', e => {
+            if (e.target.classList.contains('category-input')) {
+                updateCalculations();
+            }
+        });
+
+        skipIncomeBtn.addEventListener('click', () => {
+            incomeSkipped = !incomeSkipped;
+            monthlyIncomeEl.disabled = incomeSkipped;
+            monthlyIncomeEl.value = '';
+            skipIncomeBtn.textContent = incomeSkipped ? 'Ingresar mi sueldo' : 'Omitir por ahora';
+            if (incomeSkipped) {
+                totalForExpensesEl.textContent = '---';
+            }
+            updateCalculations();
+        });
+
+        resetButton.addEventListener('click', () => {
+            const categoryInputs = document.querySelectorAll('.category-input');
+            categoryInputs.forEach(input => {
+                input.value = '';
+            });
+            updateCalculations();
+        });
+
+        document.getElementById('budgetForm').addEventListener('submit', e => {
+            e.preventDefault();
+            // Here you would save the data and redirect
+            window.location.href = 'connect-email.html';
+        });
+
+        // --- INITIALIZATION ---
+        fetchCategories();
+
+    </script>
+</body>
+</html> 

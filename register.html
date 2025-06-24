@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse - summa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><filter id="noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .text-brand-primary { color: #D64A8D; }
+        .text-gradient {
+            background-image: linear-gradient(to right, #D64A8D, #8E44AD);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .dot-gradient {
+            background-image: linear-gradient(to right, #D64A8D, #8E44AD);
+        }
+        .form-input {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #D64A8D;
+            box-shadow: 0 0 0 3px rgba(214, 74, 141, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-200 text-gray-800">
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+        <!-- Header -->
+        <header class="flex justify-between items-center py-6">
+            <div class="text-2xl font-bold text-brand-primary">summa</div>
+            <a href="index.html" class="text-gray-700 font-medium hover:text-brand-primary">← Volver al inicio</a>
+        </header>
+
+        <!-- Registration Form -->
+        <section class="max-w-2xl mx-auto my-16">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+                    Únete a <span class="text-gradient">summa</span>
+                </h1>
+                <p class="mt-4 text-lg text-gray-700">
+                    Crea tu cuenta y comienza a controlar tus finanzas
+                </p>
+            </div>
+
+            <!-- Registration Steps -->
+            <div class="w-full px-4 sm:px-0 mb-16">
+                <div class="relative flex justify-between items-start w-full">
+                    <!-- The line -->
+                    <div class="absolute top-4 left-0 w-full h-0.5 bg-white/50 -translate-y-1/2 z-0"></div>
+                    <!-- Progress line -->
+                    <div class="absolute top-4 left-0 h-0.5 dot-gradient -translate-y-1/2 z-0" style="width: 12.5%;"></div>
+
+                    <!-- Step 1 -->
+                    <div class="z-10 text-center w-1/4">
+                        <div class="w-8 h-8 rounded-full dot-gradient text-white flex items-center justify-center mx-auto font-bold text-lg">1</div>
+                        <p class="mt-3 text-xs sm:text-sm font-semibold text-brand-primary">Datos personales</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="z-10 text-center w-1/4">
+                        <div class="w-8 h-8 rounded-full bg-white/60 backdrop-blur-sm text-gray-600 flex items-center justify-center mx-auto font-bold text-lg">2</div>
+                        <p class="mt-3 text-xs sm:text-sm font-semibold text-gray-600">Configurar presupuesto</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="z-10 text-center w-1/4">
+                        <div class="w-8 h-8 rounded-full bg-white/60 backdrop-blur-sm text-gray-600 flex items-center justify-center mx-auto font-bold text-lg">3</div>
+                        <p class="mt-3 text-xs sm:text-sm font-semibold text-gray-600">Conectar correo</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="z-10 text-center w-1/4">
+                        <div class="w-8 h-8 rounded-full bg-white/60 backdrop-blur-sm text-gray-600 flex items-center justify-center mx-auto font-bold text-lg">4</div>
+                        <p class="mt-3 text-xs sm:text-sm font-semibold text-gray-600">¡Listo!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden">
+                <div class="h-8 bg-black/5 flex items-center px-4 border-b border-white/20">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 rounded-full dot-gradient"></div>
+                        <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                        <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                        <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <form id="registrationForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
+                                <input type="text" id="firstName" name="firstName" required 
+                                       class="w-full px-4 py-3 rounded-lg form-input text-gray-900 placeholder-gray-500">
+                            </div>
+                            <div>
+                                <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">Apellido</label>
+                                <input type="text" id="lastName" name="lastName" required 
+                                       class="w-full px-4 py-3 rounded-lg form-input text-gray-900 placeholder-gray-500">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Correo electrónico</label>
+                            <input type="email" id="email" name="email" required 
+                                   class="w-full px-4 py-3 rounded-lg form-input text-gray-900 placeholder-gray-500">
+                        </div>
+                        
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
+                            <input type="password" id="password" name="password" required 
+                                   class="w-full px-4 py-3 rounded-lg form-input text-gray-900 placeholder-gray-500">
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="age" class="block text-sm font-medium text-gray-700 mb-2">Edad</label>
+                                <input type="number" id="age" name="age" min="18" max="120" required 
+                                       class="w-full px-4 py-3 rounded-lg form-input text-gray-900 placeholder-gray-500">
+                            </div>
+                            <div>
+                                <label for="profession" class="block text-sm font-medium text-gray-700 mb-2">Profesión</label>
+                                <input type="text" id="profession" name="profession" required 
+                                       class="w-full px-4 py-3 rounded-lg form-input text-gray-900 placeholder-gray-500">
+                            </div>
+                        </div>
+                        
+                        <div class="pt-6 flex justify-end">
+                            <button type="submit" 
+                                    class="px-8 py-3 rounded-lg text-white font-semibold bg-[#D64A8D] hover:opacity-95 transition-opacity">
+                                Siguiente
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="text-center pt-10 pb-4 text-gray-700">
+            <p>&copy; 2024 summa. Todos los derechos reservados</p>
+        </footer>
+    </main>
+
+    <script>
+        // Initialize Supabase
+        const supabaseUrl = 'https://lvzoiylogngxpdzblxwg.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2em9peWxvZ25neHBkemJseHdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NTQ0NzEsImV4cCI6MjA2NjEzMDQ3MX0.zMHL5kyzkIszJjaE3i6t1m_P0V8TO-VH9KiDp0e5CPQ';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Handle form submission
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const userData = {
+                email: formData.get('email'),
+                password: formData.get('password'),
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                age: parseInt(formData.get('age')),
+                profession: formData.get('profession')
+            };
+
+            try {
+                // Create user in Supabase Auth
+                const { data: authData, error: authError } = await supabase.auth.signUp({
+                    email: userData.email,
+                    password: userData.password
+                });
+
+                if (authError) {
+                    throw authError;
+                }
+
+                // Store additional user data in profiles table
+                if (authData.user) {
+                    const { error: profileError } = await supabase
+                        .from('profiles')
+                        .insert([
+                            {
+                                id: authData.user.id,
+                                first_name: userData.firstName,
+                                last_name: userData.lastName,
+                                age: userData.age,
+                                profession: userData.profession,
+                                email: userData.email
+                            }
+                        ]);
+
+                    if (profileError) {
+                        console.error('Error saving profile:', profileError);
+                    }
+                }
+
+                // Show success message and redirect to budget setup
+                alert('¡Cuenta creada exitosamente! Redirigiendo a la configuración del presupuesto...');
+                // Here you would redirect to the budget setup page
+                window.location.href = 'budget-setup.html';
+                
+            } catch (error) {
+                console.error('Error during registration:', error);
+                alert('Error al crear la cuenta: ' + error.message);
+            }
+        });
+    </script>
+
+</body>
+</html> 

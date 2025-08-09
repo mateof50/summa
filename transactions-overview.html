@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>summa - Resumen de Transacciones</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><filter id="noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .text-brand-primary { color: #1e40af; }
+        .text-gradient {
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .dot-gradient {
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
+        }
+        .glass {
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+        th, td {
+            white-space: nowrap;
+        }
+        .nav-tab {
+            @apply px-4 py-2 rounded-xl font-medium transition-colors border border-transparent text-gray-700 bg-gray-100 hover:bg-gray-200;
+            margin-right: 0.25rem;
+        }
+        .nav-tab.active {
+            @apply bg-white border-gray-300 text-gray-900 shadow-sm;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-blue-200 text-gray-800">
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+        <!-- Internal Navigation Bar -->
+        <nav class="sticky top-0 z-50 mb-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <a href="dashboard.html" class="text-2xl font-bold text-brand-primary">summa</a>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-white/30 backdrop-blur-xl rounded-full px-4 py-2">
+                        <a href="dashboard.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-dashboard">Dashboard</a>
+                        <a href="transactions.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-transactions">Registrar gasto</a>
+                        <a href="transactions-overview.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-transactions-overview">Detalle transacciones</a>
+                        <a href="budget.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-budget">Presupuesto</a>
+                        <a href="account.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-account">Mi cuenta</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Title -->
+        <section class="text-center my-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">
+                <span class="text-gradient">Resumen</span> de Transacciones
+            </h1>
+        </section>
+
+        <!-- Filters -->
+        <section class="mb-8 glass rounded-xl p-6 shadow-2xl">
+            <div class="flex flex-wrap gap-4 items-end justify-between">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+                    <select id="filterCategory" class="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-transparent min-w-[150px]">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha desde</label>
+                    <input type="date" id="filterDateFrom" class="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-transparent min-w-[140px]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha hasta</label>
+                    <input type="date" id="filterDateTo" class="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-transparent min-w-[140px]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monto mínimo</label>
+                    <input type="number" id="filterAmountMin" class="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-transparent w-24" placeholder="0">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Monto máximo</label>
+                    <input type="number" id="filterAmountMax" class="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-transparent w-24" placeholder="">
+                </div>
+                <div class="flex flex-col items-center">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">&nbsp;</label>
+                                            <button id="btnGastosHormiga" class="px-8 py-2.5 rounded-full text-white font-semibold bg-[#1e40af] hover:opacity-95 transition-opacity">Ver gastos hormiga</button>
+                    <small class="block text-xs text-gray-400 mt-1 text-center">Gastos menores a 10k COP</small>
+                </div>
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">&nbsp;</label>
+                    <button id="btnClearFilters" class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300">Limpiar filtros</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Table -->
+        <section class="glass rounded-xl shadow-2xl overflow-x-auto">
+            <table class="min-w-full text-sm">
+                <thead>
+                    <tr class="bg-white/40">
+                        <th class="px-4 py-3 text-left">Fecha</th>
+                        <th class="px-4 py-3 text-left">Hora</th>
+                        <th class="px-4 py-3 text-left">Comercio</th>
+                        <th class="px-4 py-3 text-left">Categoría macro</th>
+                        <th class="px-4 py-3 text-left">Categoría sub</th>
+                        <th class="px-4 py-3 text-left">Valor</th>
+                        <th class="px-4 py-3 text-left">Origen</th>
+                        <th class="px-4 py-3 text-left">Confirmada</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionsTableBody">
+                    <tr><td colspan="8" class="text-center py-8 text-gray-500">Cargando transacciones...</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        // --- SUPABASE CLIENT ---
+        const supabaseUrl = 'https://lvzoiylogngxpdzblxwg.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2em9peWxvZ25neHBkemJseHdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NTQ0NzEsImV4cCI6MjA2NjEzMDQ3MX0.zMHL5kyzkIszJjaE3i6t1m_P0V8TO-VH9KiDp0e5CPQ';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            const { data: { user } } = await supabase.auth.getUser();
+            
+            if (!user) {
+                // Redirect to login if not authenticated
+                window.location.href = 'login.html';
+                return;
+            }
+
+            console.log('User authenticated:', user.email);
+        });
+
+        // --- DOM ELEMENTS ---
+        const filterCategory = document.getElementById('filterCategory');
+        const filterDateFrom = document.getElementById('filterDateFrom');
+        const filterDateTo = document.getElementById('filterDateTo');
+        const filterAmountMin = document.getElementById('filterAmountMin');
+        const filterAmountMax = document.getElementById('filterAmountMax');
+        const btnGastosHormiga = document.getElementById('btnGastosHormiga');
+        const btnClearFilters = document.getElementById('btnClearFilters');
+        const transactionsTableBody = document.getElementById('transactionsTableBody');
+
+        // --- LOAD CATEGORIES FOR FILTER ---
+        async function loadCategories() {
+            const { data, error } = await supabase.from('categories').select('category_name');
+            if (!error && data) {
+                data.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat.category_name;
+                    opt.textContent = cat.category_name;
+                    filterCategory.appendChild(opt);
+                });
+            }
+        }
+
+        // --- FETCH & RENDER TRANSACTIONS ---
+        async function fetchAndRenderTransactions(filters = {}) {
+            let query = supabase.from('transactions').select('*').order('date', { ascending: false }).order('time', { ascending: false });
+
+            if (filters.category) query = query.eq('category', filters.category);
+            if (filters.dateFrom) query = query.gte('date', filters.dateFrom);
+            if (filters.dateTo) query = query.lte('date', filters.dateTo);
+            if (filters.amountMin) query = query.gte('amount', filters.amountMin);
+            if (filters.amountMax) query = query.lte('amount', filters.amountMax);
+            if (filters.gastosHormiga) query = query.lt('amount', 10000);
+
+            const { data, error } = await query;
+            renderTransactionsTable(data, error);
+        }
+
+        function renderTransactionsTable(data, error) {
+            transactionsTableBody.innerHTML = '';
+            if (error) {
+                transactionsTableBody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-red-500">Error al cargar transacciones</td></tr>`;
+                return;
+            }
+            if (!data || data.length === 0) {
+                transactionsTableBody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-gray-500">No hay transacciones para mostrar</td></tr>`;
+                return;
+            }
+            data.forEach(trx => {
+                const fecha = trx.date || (trx.created_at ? trx.created_at.split('T')[0] : '');
+                const hora = trx.time || (trx.created_at ? trx.created_at.split('T')[1]?.substring(0,5) : '');
+                const comercio = trx.merchant || '';
+                const categoriaMacro = trx.category || '';
+                const categoriaSub = trx.category || '';
+                const valor = trx.amount ? Number(trx.amount).toLocaleString('es-CO', { style: 'currency', currency: trx.currency || 'COP' }) : '';
+                const origen = trx.source || '';
+                const confirmada = trx.confirmed ? 'Sí' : 'No';
+                transactionsTableBody.innerHTML += `
+                    <tr class="border-b border-white/20 hover:bg-white/20 transition">
+                        <td class="px-4 py-2">${fecha}</td>
+                        <td class="px-4 py-2">${hora}</td>
+                        <td class="px-4 py-2">${comercio}</td>
+                        <td class="px-4 py-2">${categoriaMacro}</td>
+                        <td class="px-4 py-2">${categoriaSub}</td>
+                        <td class="px-4 py-2">${valor}</td>
+                        <td class="px-4 py-2">${origen}</td>
+                        <td class="px-4 py-2">${confirmada}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        // --- FILTER HANDLERS ---
+        function getFilters() {
+            return {
+                category: filterCategory.value,
+                dateFrom: filterDateFrom.value,
+                dateTo: filterDateTo.value,
+                amountMin: filterAmountMin.value,
+                amountMax: filterAmountMax.value
+            };
+        }
+
+        filterCategory.addEventListener('change', () => fetchAndRenderTransactions(getFilters()));
+        filterDateFrom.addEventListener('change', () => fetchAndRenderTransactions(getFilters()));
+        filterDateTo.addEventListener('change', () => fetchAndRenderTransactions(getFilters()));
+        filterAmountMin.addEventListener('input', () => fetchAndRenderTransactions(getFilters()));
+        filterAmountMax.addEventListener('input', () => fetchAndRenderTransactions(getFilters()));
+        btnGastosHormiga.addEventListener('click', (e) => {
+            e.preventDefault();
+            fetchAndRenderTransactions({ gastosHormiga: true });
+        });
+        btnClearFilters.addEventListener('click', (e) => {
+            e.preventDefault();
+            filterCategory.value = '';
+            filterDateFrom.value = '';
+            filterDateTo.value = '';
+            filterAmountMin.value = '';
+            filterAmountMax.value = '';
+            fetchAndRenderTransactions();
+        });
+
+        // Resalta la página activa como tab
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+            const activeTab = document.getElementById('nav-' + currentPage.replace('.html', ''));
+            
+            if (activeTab) {
+                activeTab.classList.remove('text-gray-700');
+                activeTab.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
+            }
+        });
+
+        // --- INIT ---
+        loadCategories();
+        fetchAndRenderTransactions();
+    </script>
+</body>
+</html> 

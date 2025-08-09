@@ -12,6 +12,8 @@
         body {
             font-family: 'Inter', sans-serif;
             position: relative;
+            margin: 0;
+            padding: 0;
         }
         body::before {
             content: '';
@@ -25,50 +27,225 @@
             pointer-events: none;
             z-index: 1;
         }
-        .text-brand-primary { color: #D64A8D; }
+        .text-brand-primary { color: #1e40af; }
         .text-gradient {
-            background-image: linear-gradient(to right, #D64A8D, #8E44AD);
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
         .dot-gradient {
-            background-image: linear-gradient(to right, #D64A8D, #8E44AD);
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(107, 114, 128, 0.6);
+            border-radius: 3px;
+            min-width: 33px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(107, 114, 128, 0.8);
+        }
+        footer {
+            margin-bottom: 0 !important;
+            bottom: 0;
+            position: relative;
+            margin-top: 0 !important;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-200 text-gray-800">
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-blue-200 text-gray-800">
 
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+    <main class="container mx-auto px-8 sm:px-12 lg:px-16 xl:px-20 2xl:px-24 py-8 relative z-10 flex-1">
         <!-- Header -->
-        <header class="flex justify-between items-center py-6">
-            <div class="text-2xl font-bold text-brand-primary">summa</div>
-            <div class="hidden md:flex items-center">
-                <nav class="flex space-x-8">
-                    <a href="#" class="text-gray-700 font-medium hover:text-brand-primary">¿Cómo funciona?</a>
-                    <a href="#" class="text-gray-700 font-medium hover:text-brand-primary">Seguridad</a>
-                    <a href="#" class="text-gray-700 font-medium hover:text-brand-primary">Comunidad</a>
-                </nav>
-                <div class="ml-8 flex items-center space-x-2">
-                    <a href="#" class="px-4 py-2 text-gray-700 font-medium rounded-lg hover:bg-gray-100">Ingresar</a>
-                    <a href="register.html" class="px-4 py-2 rounded-lg text-white font-medium bg-[#D64A8D] hover:opacity-95 transition-opacity">Registrarse</a>
+        <header class="sticky top-0 z-50 mb-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <a href="index.html" class="text-2xl font-bold text-gradient">summa</a>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-white/30 backdrop-blur-xl rounded-full px-4 py-2">
+                        <a href="#como-funciona" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40">¿Cómo funciona?</a>
+                        <a href="#precios" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40">Precios</a>
+                        <a href="blog.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40">Blog</a>
+                        <a href="login.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40">Ingresar</a>
+                        <a href="register.html" class="px-4 py-2 rounded-full font-medium transition-colors text-white bg-[#1e40af] hover:opacity-95">Registrarse</a>
+                    </div>
                 </div>
             </div>
         </header>
 
         <!-- Hero Section -->
-        <section class="text-center my-16 sm:my-24">
-            <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 leading-tight">
-                <span class="text-gradient">Toma el control</span> de tus finanzas
-            </h1>
-            <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-700">
-                Automatiza el registro y monitoreo de tus gastos
-            </p>
+        <section class="relative my-16 sm:my-24 overflow-hidden">
+            <!-- Background Elements -->
+            <div class="absolute inset-0 pointer-events-none">
+                <!-- Floating geometric shapes -->
+                <div class="absolute top-20 right-20 w-32 h-32 bg-gradient-to-br from-[#1e40af]/10 to-[#3b82f6]/10 rounded-full blur-xl"></div>
+                <div class="absolute top-40 right-40 w-24 h-24 bg-gradient-to-br from-[#3b82f6]/10 to-[#1e40af]/10 rounded-full blur-xl"></div>
+                <div class="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-br from-[#1e40af]/5 to-[#3b82f6]/5 rounded-full blur-2xl"></div>
+                
+                <!-- Grid pattern -->
+                <div class="absolute inset-0 opacity-5">
+                    <div class="w-full h-full" style="background-image: radial-gradient(circle at 1px 1px, #1e40af 1px, transparent 0); background-size: 40px 40px;"></div>
+                </div>
+                
+                <!-- Animated gradient orbs -->
+                <div class="absolute top-1/4 right-1/4 w-2 h-2 bg-[#1e40af] rounded-full animate-pulse"></div>
+                <div class="absolute top-1/3 right-1/3 w-1 h-1 bg-[#3b82f6] rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                <div class="absolute bottom-1/4 right-1/3 w-1.5 h-1.5 bg-[#1e40af] rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+            </div>
+            
+            <!-- Content -->
+            <div class="relative z-10 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 leading-tight">
+                        <span class="text-gradient">Toma el control</span> de tus finanzas
+                    </h1>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-700">
+                        Automatiza el registro y monitoreo de tus gastos con IA
+                    </p>
+                    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="register.html" class="px-8 py-4 bg-[#1e40af] text-white font-semibold rounded-full hover:opacity-95 transition-opacity text-center">
+                            Registrarse
+                        </a>
+                        <a href="#como-funciona" class="px-8 py-4 border-2 border-[#1e40af] text-[#1e40af] font-semibold rounded-full hover:bg-[#1e40af] hover:text-white transition-colors text-center">
+                            Ver cómo funciona
+                        </a>
+                    </div>
+                </div>
+            </div>
         </section>
 
+        <!-- Problem Solution Section -->
+        <section class="py-16 relative">
+            <!-- Background decorative elements -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-5 right-5 w-40 h-40 bg-gradient-to-br from-[#1e40af]/12 to-[#3b82f6]/12 rounded-full blur-2xl"></div>
+                <div class="absolute bottom-5 left-5 w-44 h-44 bg-gradient-to-br from-[#3b82f6]/10 to-[#1e40af]/10 rounded-full blur-3xl"></div>
+                <div class="absolute top-1/3 right-5 w-24 h-24 bg-gradient-to-br from-[#1e40af]/15 to-[#3b82f6]/15 rounded-full blur-xl"></div>
+            </div>
+            <div class="max-w-6xl mx-auto relative z-10">
+                <div class="mb-16 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        El primer paso para ahorrar es <span class="text-gradient">entender cómo usás tu dinero</span>
+                    </h2>
+                    <p class="text-xl text-gray-700 mb-6">
+                        Summa te ayuda a hacerlo sin esfuerzo, transformando tus gastos en decisiones inteligentes
+                    </p>
+                </div>
+
+                <!-- Benefits Grid 3x2 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Benefit 1 -->
+                    <div class="bg-white/30 backdrop-blur-xl rounded-xl p-6 shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <svg class="w-8 h-8 text-[#1e40af] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <h3 class="text-xl font-bold text-gray-900">Carga en cualquier formato</h3>
+                        </div>
+                        <p class="text-gray-700">Foto, audio, CSV, PDF o texto. Summa procesa lo que tengas, sin fricción</p>
+                    </div>
+
+                    <!-- Benefit 2 -->
+                    <div class="bg-white/30 backdrop-blur-xl rounded-xl p-6 shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <svg class="w-8 h-8 text-[#1e40af] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                            <h3 class="text-xl font-bold text-gray-900">Registro por WhatsApp</h3>
+                        </div>
+                        <p class="text-gray-700">Envía un mensaje, audio o imagen y registra tus gastos sin abrir la app</p>
+                    </div>
+
+                    <!-- Benefit 3 -->
+                    <div class="bg-white/30 backdrop-blur-xl rounded-xl p-6 shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <svg class="w-8 h-8 text-[#1e40af] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                            <h3 class="text-xl font-bold text-gray-900">Extracción automática con IA</h3>
+                        </div>
+                        <p class="text-gray-700">Detectamos monto, fecha, comercio y moneda en cada transacción</p>
+                    </div>
+
+                    <!-- Benefit 4 -->
+                    <div class="bg-white/30 backdrop-blur-xl rounded-xl p-6 shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <svg class="w-8 h-8 text-[#1e40af] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <h3 class="text-xl font-bold text-gray-900">Validación inteligente</h3>
+                        </div>
+                        <p class="text-gray-700">Si hay dudas, te lo marcamos. Tú decides qué se guarda y cómo</p>
+                    </div>
+
+                    <!-- Benefit 5 -->
+                    <div class="bg-white/30 backdrop-blur-xl rounded-xl p-6 shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <svg class="w-8 h-8 text-[#1e40af] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <h3 class="text-xl font-bold text-gray-900">Dashboards visuales</h3>
+                        </div>
+                        <p class="text-gray-700">Consulta un resumen claro y filtrable de tus gastos</p>
+                    </div>
+
+                    <!-- Benefit 6 -->
+                    <div class="bg-white/30 backdrop-blur-xl rounded-xl p-6 shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <svg class="w-8 h-8 text-[#1e40af] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <h3 class="text-xl font-bold text-gray-900">Aprende con el uso</h3>
+                        </div>
+                        <p class="text-gray-700">Summa mejora su precisión conforme validas y corriges</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="border-t-2 border-gray-300 my-8"></div>
+        </div>
+
         <!-- Onboarding Steps Section -->
-        <section class="pt-32 pb-16">
-            <div class="text-center">
+        <section id="como-funciona" class="pt-8 pb-16 relative">
+            <!-- Background decorative elements -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-5 left-5 w-32 h-32 bg-gradient-to-br from-[#1e40af]/15 to-[#3b82f6]/15 rounded-full blur-xl"></div>
+                <div class="absolute bottom-5 right-5 w-28 h-28 bg-gradient-to-br from-[#3b82f6]/12 to-[#1e40af]/12 rounded-full blur-2xl"></div>
+                <div class="absolute top-1/2 left-5 w-36 h-36 bg-gradient-to-br from-[#1e40af]/10 to-[#3b82f6]/10 rounded-full blur-3xl"></div>
+            </div>
+            <div class="text-center relative z-10">
                 <h2 class="text-3xl font-bold text-gray-900 mb-12">Empezar es más fácil de lo que crees</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
                     <!-- Step 1 -->
@@ -82,8 +259,8 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-lg font-semibold text-gray-900">Conecta tu correo</h3>
-                            <p class="mt-2 text-gray-800">Configura el reenvío automático de los correos donde recibes notificaciones de tus transacciones</p>
+                            <h3 class="text-lg font-semibold text-gray-900">Regístrate y define<br>tu presupuesto</h3>
+                            <p class="mt-2 text-gray-800">Crea tu cuenta y establece tu objetivo mensual de ahorro</p>
                         </div>
                     </div>
                     <!-- Step 2 -->
@@ -97,8 +274,8 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-lg font-semibold text-gray-900">Detectamos tus gastos</h3>
-                            <p class="mt-2 text-gray-800">Usamos IA para leer, interpretar y clasificar cada transacción automáticamente</p>
+                            <h3 class="text-lg font-semibold text-gray-900">Carga tus gastos<br>como prefieras</h3>
+                            <p class="mt-2 text-gray-800">Foto, audio, texto o WhatsApp. Summa procesa cualquier formato que tengas</p>
                         </div>
                     </div>
                     <!-- Step 3 -->
@@ -112,8 +289,8 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-lg font-semibold text-gray-900">Valida con un swipe</h3>
-                            <p class="mt-2 text-gray-800">Confirma o ajusta tus gastos fácilmente desde la app con un simple gesto</p>
+                            <h3 class="text-lg font-semibold text-gray-900">La IA extrae la<br>información por ti</h3>
+                            <p class="mt-2 text-gray-800">Detectamos monto, fecha, comercio y categoría automáticamente</p>
                         </div>
                     </div>
                     <!-- Step 4 -->
@@ -127,19 +304,490 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-lg font-semibold text-gray-900">Sigue tu presupuesto</h3>
-                            <p class="mt-2 text-gray-800">Ve cómo avanzas con tus metas mes a mes, de forma clara y organizada</p>
+                            <h3 class="text-lg font-semibold text-gray-900">Consulta tus gastos en<br>dashboards visuales</h3>
+                            <p class="mt-2 text-gray-800">Haz seguimiento con gráficos e insights automáticos de tus finanzas</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Divider -->
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="border-t-2 border-gray-300 my-8"></div>
+        </div>
+
+        <!-- Demo Section -->
+        <section class="py-16 relative">
+            <!-- Background decorative elements -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-5 right-5 w-48 h-48 bg-gradient-to-br from-[#1e40af]/12 to-[#3b82f6]/12 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-5 left-5 w-32 h-32 bg-gradient-to-br from-[#3b82f6]/15 to-[#1e40af]/15 rounded-full blur-2xl"></div>
+                <div class="absolute top-1/2 right-5 w-28 h-28 bg-gradient-to-br from-[#1e40af]/10 to-[#3b82f6]/10 rounded-full blur-xl"></div>
+            </div>
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Text Content -->
+                    <div class="space-y-6">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+                            Diseño <span class="text-gradient">intuitivo</span> que se adapta a ti
+                        </h2>
+                        <p class="text-lg text-gray-700">
+                            Una interfaz moderna y elegante que hace que el control de tus finanzas sea visual, 
+                            claro y fácil de entender. Diseñada para que te enfoques en lo importante
+                        </p>
+                        
+                        <!-- Feature highlights -->
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-6 h-6 bg-[#1e40af] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Visualización clara</h3>
+                                    <p class="text-gray-600">Gráficos intuitivos y métricas que entiendes al instante</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-3">
+                                <div class="w-6 h-6 bg-[#1e40af] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Navegación fluida</h3>
+                                    <p class="text-gray-600">Interfaz responsive que se adapta a cualquier dispositivo</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-3">
+                                <div class="w-6 h-6 bg-[#1e40af] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Diseño minimalista</h3>
+                                    <p class="text-gray-600">Sin distracciones, solo la información que necesitas</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4">
+                            <a href="register.html" class="px-8 py-4 bg-[#1e40af] text-white font-semibold rounded-full hover:opacity-95 transition-opacity text-center">
+                                Registrarse
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Images -->
+                    <div class="relative">
+                        <!-- Dashboard Mockup -->
+                        <div class="relative mb-8">
+                            <div class="bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/20">
+                                <!-- Browser header -->
+                                <div class="h-8 bg-gray-100 flex items-center px-4 border-b border-gray-200">
+                                    <div class="flex space-x-2">
+                                        <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                                        <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                                    </div>
+                                    <div class="ml-4 text-sm text-gray-600">summa.com/dashboard</div>
+                                </div>
+                                <!-- Dashboard content -->
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <h3 class="text-xl font-bold text-gray-900">Dashboard</h3>
+                                        <div class="text-sm text-gray-500">Diciembre 2024</div>
+                                    </div>
+                                    
+                                    <!-- Stats grid -->
+                                    <div class="grid grid-cols-3 gap-4 mb-6">
+                                        <div class="bg-gradient-to-br from-[#1e40af]/10 to-[#3b82f6]/10 rounded-lg p-4">
+                                            <div class="text-2xl font-bold text-[#1e40af]">$2,450</div>
+                                            <div class="text-sm text-gray-600">Gastado</div>
+                                        </div>
+                                        <div class="bg-gradient-to-br from-green-100 to-blue-100 rounded-lg p-4">
+                                            <div class="text-2xl font-bold text-green-600">$550</div>
+                                            <div class="text-sm text-gray-600">Restante</div>
+                                        </div>
+                                        <div class="bg-gradient-to-br from-orange-100 to-red-100 rounded-lg p-4">
+                                            <div class="text-2xl font-bold text-orange-600">82%</div>
+                                            <div class="text-sm text-gray-600">Usado</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Chart placeholder -->
+                                    <div class="bg-gray-50 rounded-lg h-32 flex items-center justify-center">
+                                        <div class="text-gray-400 text-sm">📊 Gráfico de gastos por categoría</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="border-t-2 border-gray-300 my-8"></div>
+        </div>
+
+        <!-- Reviews Section -->
+        <section class="py-16 relative">
+            <!-- Background decorative elements -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-5 left-5 w-36 h-36 bg-gradient-to-br from-[#1e40af]/12 to-[#3b82f6]/12 rounded-full blur-2xl"></div>
+                <div class="absolute bottom-5 right-5 w-40 h-40 bg-gradient-to-br from-[#3b82f6]/10 to-[#1e40af]/10 rounded-full blur-3xl"></div>
+                <div class="absolute top-1/3 left-5 w-24 h-24 bg-gradient-to-br from-[#1e40af]/15 to-[#3b82f6]/15 rounded-full blur-xl"></div>
+            </div>
+            <div class="max-w-6xl mx-auto relative z-10">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        <span class="text-gradient">Historias de éxito</span> de nuestros usuarios
+                    </h2>
+                    <p class="text-lg text-gray-700">
+                        Descubre cómo Summa está transformando la forma en que las personas controlan sus finanzas
+                    </p>
+                </div>
+
+                <!-- Horizontal Scroll Container -->
+                <div class="relative">
+                    <div class="flex space-x-6 overflow-x-auto pb-6 custom-scrollbar">
+                        <!-- Review Card 1 -->
+                        <div class="flex-shrink-0 w-80 bg-white/30 backdrop-blur-xl rounded-xl p-6 shadow-lg border border-white/20">
+                            <div class="flex items-center mb-4">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop&crop=face" 
+                                     alt="María González" 
+                                     class="w-24 h-24 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">María González</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Diseñadora UX</p>
+                                    <div class="flex">
+                                        <span class="text-yellow-400">★★★★★</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                "Summa cambió completamente mi relación con el dinero. Antes perdía mucho tiempo registrando gastos manualmente. Ahora solo tomo una foto y listo. He ahorrado más en 3 meses que en todo el año pasado"
+                            </p>
+                        </div>
+
+                        <!-- Review Card 2 -->
+                        <div class="flex-shrink-0 w-80 bg-white/30 backdrop-blur-xl rounded-xl p-6 shadow-lg border border-white/20">
+                            <div class="flex items-center mb-4">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=face" 
+                                     alt="Carlos Mendoza" 
+                                     class="w-24 h-24 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Carlos Mendoza</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Emprendedor</p>
+                                    <div class="flex">
+                                        <span class="text-yellow-400">★★★★★</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                "Como emprendedor, necesito control total de mis finanzas personales y de negocio. Summa me permite separar todo automáticamente y los dashboards me dan insights que antes no tenía. Es como tener un contador personal"
+                            </p>
+                        </div>
+
+                        <!-- Review Card 3 -->
+                        <div class="flex-shrink-0 w-80 bg-white/30 backdrop-blur-xl rounded-xl p-6 shadow-lg border border-white/20">
+                            <div class="flex items-center mb-4">
+                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop&crop=face" 
+                                     alt="Ana Rodríguez" 
+                                     class="w-24 h-24 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Ana Rodríguez</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Médica</p>
+                                    <div class="flex">
+                                        <span class="text-yellow-400">★★★★★</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                "Con mi horario de trabajo, nunca tenía tiempo para organizar mis gastos. Summa es perfecto porque puedo registrar todo por WhatsApp mientras voy en el metro. La IA es increíblemente precisa"
+                            </p>
+                        </div>
+
+                        <!-- Review Card 4 -->
+                        <div class="flex-shrink-0 w-80 bg-white/30 backdrop-blur-xl rounded-xl p-6 shadow-lg border border-white/20">
+                            <div class="flex items-center mb-4">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face" 
+                                     alt="David Torres" 
+                                     class="w-24 h-24 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">David Torres</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Ingeniero</p>
+                                    <div class="flex">
+                                        <span class="text-yellow-400">★★★★★</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                "Me encanta la precisión de la IA. Detecta automáticamente comercios, montos y categorías. Solo tengo que revisar ocasionalmente y corregir. Los gráficos me ayudan a identificar patrones de gasto que no veía antes"
+                            </p>
+                        </div>
+
+                        <!-- Review Card 5 -->
+                        <div class="flex-shrink-0 w-80 bg-white/30 backdrop-blur-xl rounded-xl p-6 shadow-lg border border-white/20">
+                            <div class="flex items-center mb-4">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=face" 
+                                     alt="Laura Fernández" 
+                                     class="w-24 h-24 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Laura Fernández</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Estudiante</p>
+                                    <div class="flex">
+                                        <span class="text-yellow-400">★★★★★</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                "Como estudiante, cada peso cuenta. Summa me ayuda a mantener un presupuesto estricto y me alerta cuando me acerco al límite. La interfaz es súper intuitiva y fácil de usar. ¡Totalmente recomendado"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="border-t-2 border-gray-300 my-8"></div>
+        </div>
+
+        <!-- Universidad Summa Section -->
+        <section class="py-16 relative">
+            <!-- Background decorative elements -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-5 left-5 w-44 h-44 bg-gradient-to-br from-[#1e40af]/10 to-[#3b82f6]/10 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-5 right-5 w-32 h-32 bg-gradient-to-br from-[#3b82f6]/12 to-[#1e40af]/12 rounded-full blur-2xl"></div>
+                <div class="absolute top-1/2 left-5 w-28 h-28 bg-gradient-to-br from-[#1e40af]/15 to-[#3b82f6]/15 rounded-full blur-xl"></div>
+            </div>
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Single High-Quality Image -->
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=500&fit=crop&crop=center&q=90" 
+                             alt="Mujer estudiando y aprendiendo finanzas personales" 
+                             class="w-full h-80 object-cover rounded-2xl shadow-2xl">
+                        
+                        <!-- Floating elements -->
+                        <div class="absolute -top-4 -right-4 w-8 h-8 bg-[#1e40af]/20 rounded-full blur-sm"></div>
+                        <div class="absolute -bottom-4 -left-4 w-6 h-6 bg-[#3b82f6]/20 rounded-full blur-sm"></div>
+                    </div>
+
+                    <!-- Text Content -->
+                    <div class="space-y-6">
+                        <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#1e40af]/10 to-[#3b82f6]/10 rounded-full text-sm font-medium text-[#1e40af] mb-4">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            Universidad Summa
+                        </div>
+                        
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+                            Aprende a <span class="text-gradient">dominar tus finanzas</span>
+                        </h2>
+                        
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            Nuestro blog está lleno de artículos, guías y consejos prácticos para que puedas tomar mejores decisiones financieras. Desde conceptos básicos hasta estrategias avanzadas de ahorro e inversión.
+                        </p>
+                        
+
+                        
+                        <div class="pt-4">
+                            <a href="blog.html" class="inline-flex items-center px-8 py-4 bg-[#1e40af] text-white font-semibold rounded-full hover:opacity-95 transition-opacity text-center">
+                                Explorar el blog
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="border-t-2 border-gray-300 my-8"></div>
+        </div>
+
+        <!-- Pricing Section -->
+        <section id="precios" class="py-16 relative">
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-5 left-10 w-48 h-48 bg-gradient-to-br from-[#1e40af]/10 to-[#3b82f6]/10 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-5 right-10 w-40 h-40 bg-gradient-to-br from-[#3b82f6]/12 to-[#1e40af]/12 rounded-full blur-2xl"></div>
+                <div class="absolute top-1/3 right-1/4 w-24 h-24 bg-gradient-to-br from-[#1e40af]/15 to-[#3b82f6]/15 rounded-full blur-xl"></div>
+            </div>
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="text-center mb-12">
+                    <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#1e40af]/10 to-[#3b82f6]/10 rounded-full text-sm font-medium text-[#1e40af] mb-4">
+                        15 días de prueba gratis · Cancela cuando quieras
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        Elige el plan que <span class="text-gradient">se ajusta a ti</span>
+                    </h2>
+                    <p class="text-lg text-gray-700">Empieza hoy sin riesgo. No te cobraremos hasta que termine tu prueba</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                    <!-- Plan Mensual -->
+                    <div class="relative bg-white/40 backdrop-blur-xl rounded-2xl p-6 shadow-xl border border-white/30 flex flex-col">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Mensual</h3>
+                        <div class="flex items-end gap-1 mb-4">
+                            <span class="text-4xl font-extrabold text-[#1e40af]">$24.900</span>
+                            <span class="text-gray-600 mb-1">COP/mes</span>
+                        </div>
+                        <ul class="space-y-3 text-gray-700 mb-6 flex-grow">
+                            <li class="flex items-start gap-2">
+                                <span class="mt-1 w-5 h-5 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-xs">✓</span>
+                                Todo incluido
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="mt-1 w-5 h-5 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-xs">✓</span>
+                                Sin permanencia
+                            </li>
+                        </ul>
+                        <a href="register.html" class="block mx-auto w-auto text-center px-8 py-3 rounded-full bg-[#1e40af] text-white font-semibold hover:opacity-95 mt-auto">Empezar ahora</a>
+                    </div>
+
+                    <!-- Plan Trimestral -->
+                    <div class="relative bg-white/40 backdrop-blur-xl rounded-2xl p-6 shadow-xl border border-white/30 flex flex-col">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Trimestral</h3>
+                        <div class="flex items-end gap-1 mb-1">
+                            <span class="text-4xl font-extrabold text-[#1e40af]">$19.900</span>
+                            <span class="text-gray-600 mb-1">COP/mes</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">Facturado cada 3 meses</div>
+                        <div class="text-sm text-green-600 font-semibold mb-4">Ahorras 20%</div>
+                        <ul class="space-y-3 text-gray-700 mb-6 flex-grow">
+                            <li class="flex items-start gap-2">
+                                <span class="mt-1 w-5 h-5 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-xs">✓</span>
+                                Todo incluido
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="mt-1 w-5 h-5 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-xs">✓</span>
+                                Sin permanencia
+                            </li>
+                        </ul>
+                        <a href="register.html" class="block mx-auto w-auto text-center px-8 py-3 rounded-full bg-[#1e40af] text-white font-semibold hover:opacity-95 mt-auto">Empezar ahora</a>
+                    </div>
+
+                    <!-- Plan Anual -->
+                    <div class="relative bg-white/60 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-white/40 ring-2 ring-[#1e40af]/20 flex flex-col">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-[#1e40af] text-white shadow">Recomendado</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Anual</h3>
+                        <div class="flex items-end gap-1 mb-1">
+                            <span class="text-4xl font-extrabold text-[#1e40af]">$14.900</span>
+                            <span class="text-gray-600 mb-1">COP/mes</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-1">Facturado anualmente</div>
+                        <div class="text-sm text-green-600 font-semibold mb-4">Ahorras 40%</div>
+                        <ul class="space-y-3 text-gray-700 mb-6 flex-grow">
+                            <li class="flex items-start gap-2">
+                                <span class="mt-1 w-5 h-5 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-xs">✓</span>
+                                Todo incluido
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="mt-1 w-5 h-5 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-xs">✓</span>
+                                Sin permanencia
+                            </li>
+                        </ul>
+                        <a href="register.html" class="block mx-auto w-auto text-center px-8 py-3 rounded-full bg-[#1e40af] text-white font-semibold hover:opacity-95 mt-auto">Empezar ahora</a>
+                    </div>
+                </div>
+
+                <p class="text-center text-sm text-gray-600 mt-6">Los precios están expresados por mes en COP. El cobro se realiza al finalizar la prueba gratis de 15 días.</p>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="py-16 relative">
+            <!-- Background decorative elements -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-5 left-5 w-52 h-52 bg-gradient-to-br from-[#1e40af]/8 to-[#3b82f6]/8 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-5 right-5 w-36 h-36 bg-gradient-to-br from-[#3b82f6]/12 to-[#1e40af]/12 rounded-full blur-2xl"></div>
+                <div class="absolute top-1/2 right-5 w-28 h-28 bg-gradient-to-br from-[#1e40af]/15 to-[#3b82f6]/15 rounded-full blur-xl"></div>
+            </div>
+            <div class="max-w-4xl mx-auto text-center relative z-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                    ¿Listo para <span class="text-gradient">tomar el control</span> de tus finanzas?
+                </h2>
+                <p class="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
+                    Únete a miles de usuarios que ya están transformando su relación con el dinero. 
+                    Comienza tu viaje hacia la libertad financiera hoy mismo.
+                </p>
+                <a href="register.html" class="inline-flex items-center px-8 py-4 bg-[#1e40af] text-white font-semibold rounded-full hover:opacity-95 transition-opacity text-center">
+                    Únete a summa
+                </a>
+            </div>
+        </section>
         
-        <!-- Footer -->
-        <footer class="text-center pt-10 pb-4 text-gray-700">
-            <p>&copy; 2024 summa. Todos los derechos reservados</p>
-        </footer>
     </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white pt-16 pb-4 w-full">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Main Footer Content -->
+                <div class="flex flex-col md:flex-row justify-between items-start mb-12">
+                    <!-- Company Info -->
+                    <div class="flex-1">
+                        <div class="text-2xl font-bold text-white mb-4">summa</div>
+                        <p class="text-gray-300 mb-6 max-w-md">
+                            Toma el control de tus finanzas con IA. Automatiza el registro y monitoreo de tus gastos de forma inteligente y sin complicaciones
+                        </p>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="flex space-x-4 mt-6 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Bottom Footer -->
+                <div class="border-t border-gray-700 pt-8 pb-4">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="flex flex-wrap items-center space-x-6 mb-4 md:mb-0">
+                            <span class="text-gray-400">&copy; 2025 summa. Todos los derechos reservados</span>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Términos y Condiciones</a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Política de Privacidad</a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Cookies</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </footer>
 
 </body>
 </html> 

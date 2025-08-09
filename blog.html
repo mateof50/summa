@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - summa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><filter id="noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .text-brand-primary { color: #1e40af; }
+        .text-gradient {
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .dot-gradient {
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(107, 114, 128, 0.6);
+            border-radius: 3px;
+            min-width: 33px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(107, 114, 128, 0.8);
+        }
+        footer {
+            margin-bottom: 0 !important;
+            bottom: 0;
+            position: relative;
+            margin-top: 0 !important;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-blue-200 text-gray-800">
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10 flex-1">
+        <!-- Header -->
+        <header class="sticky top-0 z-50 mb-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <a href="index.html" class="text-2xl font-bold text-brand-primary">summa</a>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-white/30 backdrop-blur-xl rounded-full px-4 py-2">
+                        <a href="index.html#como-funciona" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40">¿Cómo funciona?</a>
+                        <a href="blog.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40">Blog</a>
+                        <a href="login.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40">Ingresar</a>
+                        <a href="register.html" class="px-4 py-2 rounded-full font-medium transition-colors text-white bg-[#1e40af] hover:opacity-95">Registrarse</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="relative my-16 sm:my-24 overflow-hidden">
+            <!-- Background Elements -->
+            <div class="absolute inset-0 pointer-events-none">
+                <!-- Floating geometric shapes -->
+                <div class="absolute top-20 right-20 w-32 h-32 bg-gradient-to-br from-[#1e40af]/10 to-[#3b82f6]/10 rounded-full blur-xl"></div>
+                <div class="absolute top-40 right-40 w-24 h-24 bg-gradient-to-br from-[#3b82f6]/10 to-[#1e40af]/10 rounded-full blur-xl"></div>
+                <div class="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-br from-[#1e40af]/5 to-[#3b82f6]/5 rounded-full blur-2xl"></div>
+                
+                <!-- Grid pattern -->
+                <div class="absolute inset-0 opacity-5">
+                    <div class="w-full h-full" style="background-image: radial-gradient(circle at 1px 1px, #1e40af 1px, transparent 0); background-size: 40px 40px;"></div>
+                </div>
+                
+                <!-- Animated gradient orbs -->
+                <div class="absolute top-1/4 right-1/4 w-2 h-2 bg-[#1e40af] rounded-full animate-pulse"></div>
+                <div class="absolute top-1/3 right-1/3 w-1 h-1 bg-[#3b82f6] rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                <div class="absolute bottom-1/4 right-1/3 w-1.5 h-1.5 bg-[#1e40af] rounded-full animate-pulse" style="animation-delay: 2s;"></div>
+            </div>
+            
+            <!-- Content -->
+            <div class="relative z-10 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 leading-tight">
+                        <span class="text-gradient">Universidad Summa</span>
+                    </h1>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-700">
+                        Aprende a dominar tus finanzas con contenido educativo de calidad
+                    </p>
+                    <p class="mt-4 max-w-2xl mx-auto text-base text-gray-600">
+                        Artículos, guías y consejos prácticos para tomar mejores decisiones financieras
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="py-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button class="category-btn px-6 py-3 bg-[#1e40af] text-white font-medium rounded-full hover:opacity-95 transition-opacity" data-category="todos">Todos</button>
+                    <button class="category-btn px-6 py-3 bg-white/30 backdrop-blur-xl text-gray-700 font-medium rounded-full hover:bg-white/40 transition-colors" data-category="conceptos-basicos">Conceptos básicos</button>
+                    <button class="category-btn px-6 py-3 bg-white/30 backdrop-blur-xl text-gray-700 font-medium rounded-full hover:bg-white/40 transition-colors" data-category="ahorro">Ahorro</button>
+                    <button class="category-btn px-6 py-3 bg-white/30 backdrop-blur-xl text-gray-700 font-medium rounded-full hover:bg-white/40 transition-colors" data-category="inversion">Inversión</button>
+                    <button class="category-btn px-6 py-3 bg-white/30 backdrop-blur-xl text-gray-700 font-medium rounded-full hover:bg-white/40 transition-colors" data-category="presupuesto">Presupuesto</button>
+                    <button class="category-btn px-6 py-3 bg-white/30 backdrop-blur-xl text-gray-700 font-medium rounded-full hover:bg-white/40 transition-colors" data-category="herramientas">Herramientas</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Article -->
+        <section class="py-8" id="featured-article">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-900 mb-8">Artículo destacado</h2>
+                <div class="bg-white/30 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/20">
+                    <div class="grid grid-cols-1 lg:grid-cols-2">
+                        <div class="p-8">
+                            <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#1e40af]/10 to-[#3b82f6]/10 rounded-full text-sm font-medium text-[#1e40af] mb-4">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                                Destacado
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-4">
+                                Los 5 principios fundamentales para construir riqueza desde cero
+                            </h3>
+                            <p class="text-gray-700 mb-6 leading-relaxed">
+                                Descubre los principios básicos que todo inversionista principiante debe conocer. Desde el poder del interés compuesto hasta la importancia de la diversificación, este artículo te dará las bases sólidas para comenzar tu viaje hacia la libertad financiera.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-12 h-12 rounded-full object-cover">
+                                    <div>
+                                        <div class="font-medium text-gray-900">David Torres</div>
+                                        <div class="text-sm text-gray-600">Especialista en finanzas</div>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-gray-500">15 min de lectura</div>
+                            </div>
+                        </div>
+                        <div class="lg:block hidden">
+                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop&crop=center&q=90" 
+                                 alt="Construyendo riqueza" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Articles Grid -->
+        <section class="py-16">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-900 mb-8">Artículos recientes</h2>
+                <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Article 1 - Presupuesto -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="presupuesto">
+                        <img src="https://images.unsplash.com/photo-1554224154-26032cdc-304d?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Presupuesto 50/30/20" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Presupuesto
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                El método 50/30/20: La regla de oro para el presupuesto personal
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                Aprende a distribuir tu ingreso de manera inteligente: 50% para necesidades, 30% para deseos y 20% para ahorro e inversión.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">Ana Rodríguez</span>
+                                </div>
+                                <span class="text-sm text-gray-500">8 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 2 - Ahorro -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="ahorro">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Fondo de emergencia" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Ahorro
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                Cómo crear un fondo de emergencia en 6 meses
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                Tu colchón financiero es la base de cualquier plan financiero sólido. Te enseñamos estrategias prácticas para construirlo rápidamente.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">Carlos Mendoza</span>
+                                </div>
+                                <span class="text-sm text-gray-500">12 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 3 - Inversión -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="inversion">
+                        <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Inversión indexada" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Inversión
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                ETFs: La forma más sencilla de invertir en la bolsa
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                Los fondos cotizados (ETFs) son la puerta de entrada perfecta al mundo de las inversiones. Descubre por qué y cómo empezar.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">María González</span>
+                                </div>
+                                <span class="text-sm text-gray-500">15 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 4 - Conceptos básicos -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="conceptos-basicos">
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Deuda buena vs mala" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Conceptos básicos
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                Deuda buena vs deuda mala: ¿Cuál es la diferencia?
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                No toda la deuda es mala. Aprende a distinguir entre la deuda que te hace rico y la que te empobrece.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">David Torres</span>
+                                </div>
+                                <span class="text-sm text-gray-500">10 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 5 - Herramientas -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="herramientas">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Herramientas financieras" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Herramientas
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                Las mejores apps para controlar tus finanzas en 2024
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                Revisamos las aplicaciones más efectivas para el control de gastos, presupuesto e inversiones.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">Laura Fernández</span>
+                                </div>
+                                <span class="text-sm text-gray-500">18 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 6 - Inversión -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="inversion">
+                        <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Retiro temprano" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Inversión
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                FIRE: Retirarse antes de los 40 años
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                El movimiento FIRE (Financial Independence, Retire Early) está ganando popularidad. ¿Es posible para ti?
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">Carlos Mendoza</span>
+                                </div>
+                                <span class="text-sm text-gray-500">20 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 7 - Conceptos básicos -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="conceptos-basicos">
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Interés compuesto" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Conceptos básicos
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                El poder del interés compuesto: La octava maravilla del mundo
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                Einstein dijo que el interés compuesto es la octava maravilla del mundo. Descubre por qué y cómo aprovecharlo.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">David Torres</span>
+                                </div>
+                                <span class="text-sm text-gray-500">12 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 8 - Ahorro -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="ahorro">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Ahorro automático" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Ahorro
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                Ahorro automático: Configura y olvídate
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                La mejor estrategia de ahorro es la que no requiere esfuerzo. Aprende a automatizar tus finanzas.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">Ana Rodríguez</span>
+                                </div>
+                                <span class="text-sm text-gray-500">10 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 9 - Presupuesto -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="presupuesto">
+                        <img src="https://images.unsplash.com/photo-1554224154-26032cdc-304d?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Presupuesto cero" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Presupuesto
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                Presupuesto cero: El método que te dará control total
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                Cada peso tiene un propósito. Descubre cómo el presupuesto cero puede transformar tu relación con el dinero.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">María González</span>
+                                </div>
+                                <span class="text-sm text-gray-500">14 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 10 - Herramientas -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="herramientas">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Excel financiero" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Herramientas
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                Plantillas de Excel para controlar tus finanzas
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                Descarga nuestras plantillas gratuitas de Excel para presupuesto, seguimiento de gastos e inversiones.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">Laura Fernández</span>
+                                </div>
+                                <span class="text-sm text-gray-500">6 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 11 - Inversión -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="inversion">
+                        <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Diversificación" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Inversión
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                Diversificación: No pongas todos los huevos en una canasta
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                La diversificación es clave para reducir el riesgo. Aprende a construir un portafolio equilibrado.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">Carlos Mendoza</span>
+                                </div>
+                                <span class="text-sm text-gray-500">16 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article 12 - Conceptos básicos -->
+                    <div class="article-card bg-white/30 backdrop-blur-xl rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-xl transition-shadow" data-category="conceptos-basicos">
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop&crop=center&q=90" 
+                             alt="Inflación" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="inline-flex items-center px-3 py-1 bg-[#1e40af]/10 rounded-full text-xs font-medium text-[#1e40af] mb-3">
+                                Conceptos básicos
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">
+                                Inflación: El enemigo silencioso de tus ahorros
+                            </h3>
+                            <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+                                La inflación erosiona el valor de tu dinero. Entiende cómo afecta tus finanzas y cómo protegerte.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" 
+                                         alt="Autor" 
+                                         class="w-8 h-8 rounded-full object-cover">
+                                    <span class="text-sm text-gray-600">David Torres</span>
+                                </div>
+                                <span class="text-sm text-gray-500">11 min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="py-16">
+            <div class="max-w-4xl mx-auto">
+                <div class="p-8 text-center">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">No te pierdas ningún artículo</h2>
+                    <p class="text-lg mb-6 text-gray-700">
+                        Suscríbete a nuestro newsletter y recibe los mejores consejos financieros directamente en tu correo
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+                        <input type="email" 
+                               placeholder="Tu correo electrónico" 
+                               class="flex-1 px-4 py-3 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#1e40af]/50 bg-white/50">
+                        <button class="px-6 py-3 bg-[#1e40af] text-white font-semibold rounded-full hover:opacity-95 transition-opacity">
+                            Suscribirse
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white pt-16 pb-4 w-full">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Main Footer Content -->
+                <div class="flex flex-col md:flex-row justify-between items-start mb-12">
+                    <!-- Company Info -->
+                    <div class="flex-1">
+                        <div class="text-2xl font-bold text-white mb-4">summa</div>
+                        <p class="text-gray-300 mb-6 max-w-md">
+                            Toma el control de tus finanzas con IA. Automatiza el registro y monitoreo de tus gastos de forma inteligente y sin complicaciones
+                        </p>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="flex space-x-4 mt-6 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Bottom Footer -->
+                <div class="border-t border-gray-700 pt-8 pb-4">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="flex flex-wrap items-center space-x-6 mb-4 md:mb-0">
+                            <span class="text-gray-400">&copy; 2025 summa. Todos los derechos reservados</span>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Términos y Condiciones</a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Política de Privacidad</a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Cookies</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <script>
+        // Funcionalidad de filtrado de artículos
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const articleCards = document.querySelectorAll('.article-card');
+            const articlesGrid = document.getElementById('articles-grid');
+
+            // Función para filtrar artículos
+            function filterArticles(category) {
+                // Controlar visibilidad del artículo destacado
+                const featuredArticle = document.getElementById('featured-article');
+                if (category === 'todos') {
+                    featuredArticle.style.display = 'block';
+                    featuredArticle.style.animation = 'fadeIn 0.5s ease-in-out';
+                } else {
+                    featuredArticle.style.display = 'none';
+                }
+
+                // Filtrar artículos normales
+                articleCards.forEach(card => {
+                    if (category === 'todos' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeIn 0.5s ease-in-out';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // Función para actualizar el estado de los botones
+            function updateButtonStates(activeCategory) {
+                categoryButtons.forEach(btn => {
+                    if (btn.dataset.category === activeCategory) {
+                        btn.classList.remove('bg-white/30', 'text-gray-700', 'hover:bg-white/40');
+                        btn.classList.add('bg-[#1e40af]', 'text-white', 'hover:opacity-95');
+                    } else {
+                        btn.classList.remove('bg-[#1e40af]', 'text-white', 'hover:opacity-95');
+                        btn.classList.add('bg-white/30', 'text-gray-700', 'hover:bg-white/40');
+                    }
+                });
+            }
+
+            // Event listeners para los botones de categoría
+            categoryButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    filterArticles(category);
+                    updateButtonStates(category);
+                });
+            });
+
+            // Animación CSS para el fade in
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+
+</body>
+</html> 

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - summa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><filter id="noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .text-brand-primary { color: #1e40af; }
+        .text-gradient {
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .dot-gradient {
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
+        }
+        .form-input {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #1e40af;
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-blue-200 text-gray-800">
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+        <!-- Header -->
+        <header class="flex justify-between items-center py-6">
+            <div class="text-2xl font-bold text-brand-primary">summa</div>
+            <a href="index.html" class="text-gray-700 font-medium hover:text-brand-primary">← Volver al inicio</a>
+        </header>
+
+        <!-- Login Form -->
+        <section class="max-w-2xl mx-auto my-16">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+                    Bienvenido de vuelta a <span class="text-gradient">summa</span>
+                </h1>
+                <p class="mt-4 text-lg text-gray-700">
+                    Inicia sesión para continuar con tu control financiero
+                </p>
+            </div>
+
+            <!-- Form -->
+            <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden">
+                <div class="h-8 bg-black/5 flex items-center px-4 border-b border-white/20">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 rounded-full dot-gradient"></div>
+                        <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                        <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                        <div class="w-3 h-3 rounded-full bg-gray-300"></div>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <form id="loginForm" class="space-y-6">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Correo electrónico</label>
+                            <input type="email" id="email" name="email" required 
+                                   class="w-full px-4 py-3 rounded-lg form-input text-gray-900 placeholder-gray-500"
+                                   placeholder="tu@email.com">
+                        </div>
+                        
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
+                            <input type="password" id="password" name="password" required 
+                                   class="w-full px-4 py-3 rounded-lg form-input text-gray-900 placeholder-gray-500"
+                                   placeholder="••••••••">
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="rememberMe" name="rememberMe" 
+                                       class="h-4 w-4 text-[#1e40af] focus:ring-[#1e40af] border-gray-300 rounded">
+                                <label for="rememberMe" class="ml-2 block text-sm text-gray-700">
+                                    Recordarme
+                                </label>
+                            </div>
+                            <a href="#" class="text-sm text-[#1e40af] hover:underline">
+                                ¿Olvidaste tu contraseña?
+                            </a>
+                        </div>
+                        
+                        <div class="pt-6">
+                            <button type="submit" 
+                                    class="w-full px-8 py-3 rounded-lg text-white font-semibold bg-[#1e40af] hover:opacity-95 transition-opacity">
+                                Iniciar Sesión
+                            </button>
+                        </div>
+
+                        <div class="text-center pt-4">
+                            <p class="text-gray-700">
+                                ¿No tienes una cuenta? 
+                                <a href="register.html" class="text-[#1e40af] hover:underline font-medium">
+                                    Regístrate aquí
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                    
+                    <!-- Resend confirmation email section (hidden by default) -->
+                    <div id="resendConfirmationSection" class="mt-6 pt-6 border-t border-gray-200 hidden">
+                        <div class="text-center">
+                            <p class="text-sm text-gray-600 mb-3">
+                                ¿No recibiste el correo de confirmación?
+                            </p>
+                            <button id="resendConfirmationBtn" 
+                                    class="px-4 py-2 text-sm text-[#1e40af] hover:text-[#1e40af]/80 font-medium hover:underline transition-colors">
+                                Reenviar correo de confirmación
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="text-center pt-10 pb-4 text-gray-700">
+            <p>&copy; 2024 summa. Todos los derechos reservados</p>
+        </footer>
+    </main>
+
+    <script>
+        // Initialize Supabase
+        const supabaseUrl = 'https://lvzoiylogngxpdzblxwg.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2em9peWxvZ25neHBkemJseHdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NTQ0NzEsImV4cCI6MjA2NjEzMDQ3MX0.zMHL5kyzkIszJjaE3i6t1m_P0V8TO-VH9KiDp0e5CPQ';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const loginData = {
+                email: formData.get('email'),
+                password: formData.get('password'),
+                rememberMe: formData.get('rememberMe') === 'on'
+            };
+
+            // Show loading state
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Iniciando sesión...';
+            submitButton.disabled = true;
+
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: loginData.email,
+                    password: loginData.password
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                if (data.user) {
+                    console.log('Login successful:', data.user);
+                    // Redirect to dashboard after successful login
+                    window.location.href = 'dashboard.html';
+                }
+                
+            } catch (error) {
+                console.error('Error during login:', error);
+                
+                // Show error message to user
+                let errorMessage = 'Error al iniciar sesión';
+                let showResendButton = false;
+                
+                if (error.message.includes('Invalid login credentials')) {
+                    errorMessage = 'Correo electrónico o contraseña incorrectos';
+                } else if (error.message.includes('Email not confirmed')) {
+                    errorMessage = 'Por favor confirma tu correo electrónico antes de iniciar sesión';
+                    showResendButton = true;
+                } else if (error.message.includes('Too many requests')) {
+                    errorMessage = 'Demasiados intentos. Intenta de nuevo en unos minutos';
+                }
+                
+                // Create and show error message
+                showErrorMessage(errorMessage, showResendButton);
+                
+            } finally {
+                // Reset button state
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        });
+
+        // Function to show error messages
+        function showErrorMessage(message, showResendButton = false) {
+            // Remove any existing error message
+            const existingError = document.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Create error message element
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4';
+            errorDiv.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                    ${message}
+                </div>
+            `;
+
+            // Insert error message before the form
+            const form = document.getElementById('loginForm');
+            form.parentNode.insertBefore(errorDiv, form);
+
+            // Show/hide resend confirmation button based on error type
+            const resendSection = document.getElementById('resendConfirmationSection');
+            if (showResendButton) {
+                resendSection.classList.remove('hidden');
+            } else {
+                resendSection.classList.add('hidden');
+            }
+        }
+
+        // Function to show success messages
+        function showSuccessMessage(message) {
+            // Remove any existing messages
+            const existingError = document.querySelector('.error-message');
+            const existingSuccess = document.querySelector('.success-message');
+            if (existingError) existingError.remove();
+            if (existingSuccess) existingSuccess.remove();
+
+            // Create success message element
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4';
+            successDiv.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    ${message}
+                </div>
+            `;
+
+            // Insert success message before the form
+            const form = document.getElementById('loginForm');
+            form.parentNode.insertBefore(successDiv, form);
+
+            // Hide resend confirmation button when showing success message
+            const resendSection = document.getElementById('resendConfirmationSection');
+            resendSection.classList.add('hidden');
+        }
+
+        // Handle resend confirmation email
+        document.getElementById('resendConfirmationBtn').addEventListener('click', async function() {
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                showErrorMessage('Por favor ingresa tu correo electrónico para reenviar la confirmación', false);
+                return;
+            }
+
+            // Show loading state
+            const button = this;
+            const originalText = button.textContent;
+            button.textContent = 'Enviando...';
+            button.disabled = true;
+
+            try {
+                const { error } = await supabase.auth.resend({
+                    type: 'signup',
+                    email: email
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                showSuccessMessage('Correo de confirmación enviado. Revisa tu bandeja de entrada.');
+                
+            } catch (error) {
+                console.error('Error resending confirmation:', error);
+                
+                let errorMessage = 'Error al reenviar el correo de confirmación';
+                
+                if (error.message.includes('User not found')) {
+                    errorMessage = 'No se encontró una cuenta con este correo electrónico';
+                } else if (error.message.includes('Email not confirmed')) {
+                    errorMessage = 'El correo ya fue confirmado o no existe';
+                } else if (error.message.includes('Too many requests')) {
+                    errorMessage = 'Demasiados intentos. Intenta de nuevo en unos minutos';
+                }
+                
+                showErrorMessage(errorMessage, false);
+                
+            } finally {
+                // Reset button state
+                button.textContent = originalText;
+                button.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+</html> 

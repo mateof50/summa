@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - summa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><filter id="noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .text-brand-primary { color: #1e40af !important; }
+        .text-gradient {
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .bg-gradient-brand {
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .glass-morphism-strong {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .filter-button {
+            transition: all 0.2s ease;
+        }
+        .filter-button.active {
+            background: #1e40af;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.4);
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        .expense-item {
+            transition: all 0.2s ease;
+        }
+        .expense-item:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.4);
+        }
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .kpi-card {
+            transition: all 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 64, 175, 0.1);
+        }
+        .category-item {
+            transition: all 0.3s ease;
+            padding: 6px 8px;
+            border-radius: 8px;
+        }
+        .category-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(2px);
+        }
+        
+        /* Capsule styles */
+        .capsule {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 20px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 500;
+            white-space: nowrap;
+            background: rgba(156, 163, 175, 0.3);
+            backdrop-filter: blur(10px);
+            color: #374151;
+            border: 1px solid rgba(156, 163, 175, 0.4);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-blue-200 text-gray-800">
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+        <!-- Internal Navigation Bar -->
+        <nav class="sticky top-0 z-50 mb-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <a href="dashboard.html" class="text-2xl font-bold text-brand-primary">summa</a>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-white/30 backdrop-blur-xl rounded-full px-4 py-2">
+                        <a href="dashboard.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-dashboard">Dashboard</a>
+                        <a href="transactions.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-transactions">Registrar gasto</a>
+                        <a href="transactions-overview.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-transactions-overview">Detalle transacciones</a>
+                        <a href="budget.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-budget">Presupuesto</a>
+                        <a href="account.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-account">Mi cuenta</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <!-- Page Header -->
+        <section class="max-w-4xl mx-auto">
+            <div class="text-center my-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+                    Mi <span class="text-gradient">Dashboard</span>
+                </h1>
+                <p class="mt-4 text-lg text-gray-700">
+                    Resumen completo de tus finanzas personales
+                </p>
+            </div>
+        </section>
+
+        <!-- Dashboard Content -->
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Section - Text Metrics -->
+                <div class="lg:col-span-1">
+                    <div class="glass-morphism-strong rounded-xl p-6 h-full">
+                        <div class="flex flex-col h-full">
+                            <!-- Title -->
+                            <div class="mb-4">
+                                <h3 class="text-lg font-semibold text-gray-900">Resultados del Mes</h3>
+        </div>
+
+                            <!-- Main Content -->
+                            <div class="flex flex-1 mb-6">
+                                <!-- Left side - Main Amount -->
+                                <div class="flex-1 flex flex-col justify-center">
+                                    <div class="text-4xl font-bold text-blue-600 mb-2">7.5M COP</div>
+                                    <div class="text-sm text-gray-600">Mes acumulado</div>
+                    </div>
+                    
+                                <!-- Vertical Divider -->
+                                <div class="border-l-2 border-gray-300 mx-6"></div>
+                                
+                                <!-- Right side - KPIs stacked vertically -->
+                                <div class="flex-1 flex flex-col justify-start space-y-3">
+                                    <div class="flex flex-col">
+                                        <span class="text-blue-600 font-semibold text-lg">80%</span>
+                                        <span class="text-gray-600 text-sm">PPTO mes</span>
+                    </div>
+
+                                    <div class="flex flex-col">
+                                        <span class="text-blue-600 font-semibold text-lg">+70%</span>
+                                        <span class="text-gray-600 text-sm">vs mes anterior</span>
+            </div>
+
+                                    <div class="flex flex-col">
+                                        <span class="text-blue-600 font-semibold text-lg">+75k</span>
+                                        <span class="text-gray-600 text-sm">Prom. diario</span>
+                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Horizontal Divider -->
+                            <div class="border-t border-gray-300 mb-4"></div>
+                            
+                            <!-- Insights Section -->
+                            <div class="flex-1">
+                                <h4 class="text-sm font-semibold text-gray-700 mb-3">Insights Clave:</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-start gap-2">
+                                        <div class="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                                        <span class="text-sm text-gray-600">Gastos en alimentación aumentaron 25% vs mes anterior</span>
+                                </div>
+                                    <div class="flex items-start gap-2">
+                                        <div class="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                                        <span class="text-sm text-gray-600">Weekends representan 40% del gasto total</span>
+                            </div>
+                                    <div class="flex items-start gap-2">
+                                        <div class="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                                        <span class="text-sm text-gray-600">Categoría "Entretenimiento" superó presupuesto en 15%</span>
+            </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                <!-- Right Section - Stacked Bar Chart -->
+                <div class="lg:col-span-2">
+                    <div class="glass-morphism-strong rounded-xl p-6 h-full">
+                        <div class="flex flex-col h-full">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-lg font-semibold text-gray-900">Evolución Mensual</h3>
+                                <div class="flex items-center gap-4 text-sm">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 bg-gray-700 rounded"></div>
+                                        <span class="text-gray-600">Gastos</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 bg-gray-300 rounded"></div>
+                                        <span class="text-gray-600">Ingresos</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chart-container flex-1">
+                                <canvas id="stackedBarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+        </div>
+        
+        <!-- Separator Line -->
+        <div class="max-w-7xl mx-auto my-12">
+            <div class="border-t-2 border-gray-300"></div>
+        </div>
+
+        <!-- Dynamic Content Section -->
+        <div class="max-w-7xl mx-auto mb-12">
+            <!-- Filter Bar -->
+            <div class="glass-morphism-strong rounded-xl p-6 mb-8">
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <button class="filter-button px-6 py-2 rounded-full font-medium text-gray-700 bg-white/40 hover:bg-white/60 border border-gray-200" data-filter="mes">
+                        Mes
+                    </button>
+                    <button class="filter-button active px-6 py-2 rounded-full font-medium" data-filter="semana">
+                        Semana
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full font-medium text-gray-700 bg-white/40 hover:bg-white/60 border border-gray-200" data-filter="diario">
+                        Diario
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full font-medium text-gray-700 bg-white/40 hover:bg-white/60 border border-gray-200" data-filter="categoria">
+                        Categoría
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full font-medium text-gray-700 bg-white/40 hover:bg-white/60 border border-gray-200" data-filter="comercio">
+                        Comercio
+                    </button>
+                    <button class="filter-button px-6 py-2 rounded-full font-medium text-gray-700 bg-white/40 hover:bg-white/60 border border-gray-200" data-filter="trx">
+                        TRX
+                    </button>
+                </div>
+            </div>
+
+            <!-- Categories Chart Section -->
+            <div class="glass-morphism-strong rounded-xl p-6">
+                <div class="flex items-start min-h-[400px]">
+                    <!-- Left Side - Categories Chart with Capsules (75%) -->
+                    <div style="width: 75%;">
+                        <!-- Header with titles -->
+                        <div class="flex items-center mb-2">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-gray-900">Gastos por Categoría</h3>
+                                <p class="text-sm text-gray-500 mt-1">COP Millones</p>
+                            </div>
+                            <div class="flex gap-8 text-xs text-gray-500 font-medium">
+                                <span>vs mes ant.</span>
+                                <span>vs budget</span>
+                            </div>
+                        </div>
+
+                        <!-- Categories Horizontal Bar Chart with Capsules -->
+                        <div class="relative">
+                            <div class="chart-container" style="height: 350px; padding-left: 20px; padding-right: 120px;">
+                                <canvas id="categoriesChart"></canvas>
+                            </div>
+                            
+                            <!-- Capsules Container -->
+                            <div class="absolute top-0 right-0 h-full flex gap-2" style="width: 120px;">
+                                <!-- Column 1: vs Month -->
+                                <div id="vsMonthContainer" class="flex-1 relative">
+                                    <!-- vs Month capsules will be positioned here -->
+                                </div>
+                                <!-- Column 2: vs Budget -->
+                                <div id="vsBudgetContainer" class="flex-1 relative">
+                                    <!-- vs Budget capsules will be positioned here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vertical Divider -->
+                    <div class="border-l-2 border-gray-300 mx-6 self-stretch"></div>
+                    
+                    <!-- Right Side - Categories Details (25%) -->
+                    <div style="width: 25%;" class="flex flex-col">
+                        <!-- Header alignment -->
+                        <div class="mb-6" style="height: 2.5rem;"></div>
+                        
+                        <!-- Categories details box -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm flex-1">
+                            <h4 class="text-sm font-semibold text-gray-700 mb-3">Detalles por Categoría</h4>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Vivienda:</span>
+                                    <span class="font-semibold">COP 2.4m (49%)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Educación:</span>
+                                    <span class="font-semibold">COP 2.4m (49%)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Alimentación:</span>
+                                    <span class="font-semibold">COP 2.4m (48%)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Entretenimiento:</span>
+                                    <span class="font-semibold">COP 2.3m (47%)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Viajes:</span>
+                                    <span class="font-semibold">COP 2.3m (46%)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Salud:</span>
+                                    <span class="font-semibold">COP 1.9m (38%)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Transporte:</span>
+                                    <span class="font-semibold">COP 1.7m (34%)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Compras personales:</span>
+                                    <span class="font-semibold">COP 1.7m (34%)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Gastos hormiga:</span>
+                                    <span class="font-semibold">COP 1.4m (28%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="text-center pt-10 pb-4 text-gray-700">
+            <p>&copy; 2024 summa. Todos los derechos reservados</p>
+        </footer>
+    </main>
+
+    <script>
+        // Resalta la página activa como tab
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+            const activeTab = document.getElementById('nav-' + currentPage.replace('.html', ''));
+            
+            if (activeTab) {
+                activeTab.classList.remove('text-gray-700');
+                activeTab.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
+            }
+
+            // Define custom plugin for values inside bars
+            const barValuesPlugin = {
+                id: 'barValues',
+                afterDraw: function(chart) {
+                    var ctx = chart.ctx;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = '12px Inter';
+                    
+                    chart.data.datasets.forEach(function(dataset, i) {
+                        chart.getDatasetMeta(i).data.forEach(function(bar, index) {
+                            var data = dataset.data[index];
+                            if (data > 0) {
+                                var xPos = bar.x;
+                                var yPos = bar.y + (bar.height / 2);
+                                
+                                // Color del texto basado en el color de fondo
+                                var bgColor = Array.isArray(dataset.backgroundColor) ? dataset.backgroundColor[index] : dataset.backgroundColor;
+                                ctx.fillStyle = (bgColor === '#374151' || bgColor === '#2563eb') ? '#ffffff' : '#374151';
+                                
+                                ctx.fillText(data + '%', xPos, yPos);
+                            }
+                        });
+                    });
+                }
+            };
+
+            // Initialize Stacked Bar Chart
+            const ctx = document.getElementById('stackedBarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+            data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov'],
+                    datasets: [
+                        {
+                            label: 'Gastos',
+                            data: [36, 0, 8, 20, 22, 19, 45, 20, 15, 44, 7],
+                            backgroundColor: ['#374151', '#374151', '#374151', '#374151', '#374151', '#374151', '#374151', '#374151', '#374151', '#374151', '#2563eb'], // gray-700 for all months except Nov (blue-600)
+                            borderWidth: 0,
+                            borderRadius: 4,
+                            borderSkipped: false,
+                        },
+                        {
+                            label: 'Ingresos',
+                            data: [64, 100, 92, 80, 78, 81, 55, 80, 85, 56, 93],
+                            backgroundColor: '#d1d5db', // gray-300
+                            borderWidth: 0,
+                            borderRadius: 4,
+                            borderSkipped: false,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                    family: 'Inter',
+                                    size: 12
+                                },
+                                color: '#6b7280'
+                            }
+                        },
+                        y: {
+                            display: false, // Hide Y axis
+                            stacked: true,
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#374151',
+                            bodyColor: '#6b7280',
+                            borderColor: '#d1d5db',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            displayColors: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y + '%';
+                                }
+                            }
+                        }
+                    }
+                },
+                plugins: [barValuesPlugin]
+            });
+
+            // Initialize Categories Horizontal Bar Chart
+            const categoriesCtx = document.getElementById('categoriesChart').getContext('2d');
+            const categoriesChart = new Chart(categoriesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Vivienda', 'Educación', 'Alimentación', 'Entretenimiento', 'Viajes', 'Salud', 'Transporte', 'Compras personales', 'Gastos hormiga'],
+                    datasets: [{
+                        label: 'Porcentaje del total',
+                        data: [49, 49, 48, 47, 46, 38, 34, 34, 28],
+                        backgroundColor: [
+                            '#2563eb', // blue-600
+                            '#2563eb', // blue-600
+                            '#2563eb', // blue-600
+                            '#d1d5db', // gray-300
+                            '#d1d5db', // gray-300
+                            '#d1d5db', // gray-300
+                            '#d1d5db', // gray-300
+                            '#d1d5db', // gray-300
+                            '#d1d5db'  // gray-300
+                        ],
+                        borderWidth: 0,
+                        borderRadius: 6,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // This makes it horizontal
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            right: 140 // Add padding to the right to make space for capsules
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false, // Hide X axis
+                            beginAtZero: true,
+                            max: 50
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    family: 'Inter',
+                                    size: 12
+                                },
+                                color: '#374151'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#374151',
+                            bodyColor: '#6b7280',
+                            borderColor: '#d1d5db',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            displayColors: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.x + '% del total';
+                                }
+                            }
+                        }
+                    }
+                },
+                plugins: [{
+                    id: 'categoryBarValues',
+                    afterDraw: function(chart) {
+                        var ctx = chart.ctx;
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'middle';
+                        ctx.font = '11px Inter';
+                        
+                        // Valores monetarios en millones
+                        const moneyValues = [2.4, 2.4, 2.4, 2.3, 2.3, 1.9, 1.7, 1.7, 1.4];
+                        
+                        chart.data.datasets.forEach(function(dataset, i) {
+                            chart.getDatasetMeta(i).data.forEach(function(bar, index) {
+                                var data = dataset.data[index];
+                                if (data > 0) {
+                                    var yPos = bar.y;
+                                    
+                                    // Valor monetario centrado dentro de la barra
+                                    ctx.textAlign = 'center';
+                                    var bgColor = Array.isArray(dataset.backgroundColor) ? dataset.backgroundColor[index] : dataset.backgroundColor;
+                                    ctx.fillStyle = (bgColor === '#2563eb') ? '#ffffff' : '#374151';
+                                    var xPosInside = bar.x - (bar.width / 2); // Centrado en la barra
+                                    ctx.fillText(moneyValues[index] + 'M', xPosInside, yPos);
+                                    
+                                    // Porcentaje fuera de la barra (a la derecha)
+                                    ctx.textAlign = 'left';
+                                    ctx.fillStyle = '#374151';
+                                    var xPosOutside = bar.x + 15; // Offset from bar end
+                                    ctx.fillText(data + '%', xPosOutside, yPos);
+                                }
+                            });
+                        });
+                    }
+                }]
+            });
+
+            // Create and position capsules after chart is rendered
+            function createCapsules() {
+                const vsMonthContainer = document.getElementById('vsMonthContainer');
+                const vsBudgetContainer = document.getElementById('vsBudgetContainer');
+                
+                // Clear existing capsules
+                vsMonthContainer.innerHTML = '';
+                vsBudgetContainer.innerHTML = '';
+                
+                // Data for capsules: [vsMonth, vsBudget]
+                const capsuleData = [
+                    { vsMonth: '+12%', vsBudget: '-5%' },
+                    { vsMonth: '+8%', vsBudget: '+2%' },
+                    { vsMonth: '+25%', vsBudget: '-8%' },
+                    { vsMonth: '+15%', vsBudget: '+12%' },
+                    { vsMonth: '-5%', vsBudget: '-3%' },
+                    { vsMonth: '+3%', vsBudget: '+7%' },
+                    { vsMonth: '+18%', vsBudget: '-2%' },
+                    { vsMonth: '+22%', vsBudget: '+5%' },
+                    { vsMonth: '+9%', vsBudget: '-1%' }
+                ];
+                
+                // Get chart container dimensions
+                const chartContainer = document.querySelector('.chart-container');
+                const chartHeight = chartContainer.offsetHeight;
+                const chartPadding = 20; // Padding left from chart container
+                const availableHeight = chartHeight - (chartPadding * 2);
+                const barHeight = (availableHeight / 9) * 1.067; // 9 categories with 6.7% more spacing (reduced 3% from 1.1)
+                
+                // Create spacer divs to match chart height
+                for (let i = 0; i < 9; i++) {
+                    const spacerHeight = barHeight;
+                    const spacerTop = chartPadding + (i * barHeight) - 8; // Move capsules up by 8px
+                    
+                    // Create spacer for vsMonth column
+                    const vsMonthSpacer = document.createElement('div');
+                    vsMonthSpacer.style.height = `${spacerHeight}px`;
+                    vsMonthSpacer.style.position = 'absolute';
+                    vsMonthSpacer.style.top = `${spacerTop}px`;
+                    vsMonthSpacer.style.left = '0';
+                    vsMonthSpacer.style.right = '0';
+                    vsMonthSpacer.style.display = 'flex';
+                    vsMonthSpacer.style.alignItems = 'center';
+                    vsMonthSpacer.style.justifyContent = 'center';
+                    
+                    // Create spacer for vsBudget column
+                    const vsBudgetSpacer = document.createElement('div');
+                    vsBudgetSpacer.style.height = `${spacerHeight}px`;
+                    vsBudgetSpacer.style.position = 'absolute';
+                    vsBudgetSpacer.style.top = `${spacerTop}px`;
+                    vsBudgetSpacer.style.left = '0';
+                    vsBudgetSpacer.style.right = '0';
+                    vsBudgetSpacer.style.display = 'flex';
+                    vsBudgetSpacer.style.alignItems = 'center';
+                    vsBudgetSpacer.style.justifyContent = 'center';
+                    
+                    // Add capsule to vsMonth spacer
+                    const vsMonthCapsule = document.createElement('div');
+                    vsMonthCapsule.className = 'capsule';
+                    vsMonthCapsule.textContent = capsuleData[i].vsMonth;
+                    vsMonthSpacer.appendChild(vsMonthCapsule);
+                    
+                    // Add capsule to vsBudget spacer
+                    const vsBudgetCapsule = document.createElement('div');
+                    vsBudgetCapsule.className = 'capsule';
+                    vsBudgetCapsule.textContent = capsuleData[i].vsBudget;
+                    vsBudgetSpacer.appendChild(vsBudgetCapsule);
+                    
+                    vsMonthContainer.appendChild(vsMonthSpacer);
+                    vsBudgetContainer.appendChild(vsBudgetSpacer);
+                }
+            }
+            
+            // Create capsules after a short delay to ensure chart is rendered
+            setTimeout(createCapsules, 100);
+            
+            // Recreate capsules on window resize
+            window.addEventListener('resize', function() {
+                setTimeout(createCapsules, 100);
+            });
+
+            // Filter functionality
+            const filterButtons = document.querySelectorAll('.filter-button');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.classList.add('text-gray-700', 'bg-white/40', 'hover:bg-white/60', 'border', 'border-gray-200');
+                        btn.classList.remove('text-white');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    this.classList.remove('text-gray-700', 'bg-white/40', 'hover:bg-white/60', 'border', 'border-gray-200');
+                    this.classList.add('text-white');
+                    
+                    // Here you can add logic to filter the data based on the selected filter
+                    const filterType = this.getAttribute('data-filter');
+                    console.log('Filter selected:', filterType);
+                    
+                    // Placeholder for filtering logic
+                    // This is where you would update the categories data based on the selected filter
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

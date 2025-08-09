@@ -1,0 +1,30 @@
+<!-- Internal Navigation Bar -->
+<nav class="sticky top-0 z-50 mb-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center">
+                <a href="dashboard.html" class="text-2xl font-bold text-brand-primary">summa</a>
+            </div>
+            <div class="flex items-center space-x-2 bg-white/30 backdrop-blur-xl rounded-full px-4 py-2">
+                <a href="dashboard.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-dashboard">Dashboard</a>
+                <a href="transactions.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-transactions">Registrar gasto</a>
+                <a href="transactions-overview.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-transactions-overview">Detalle transacciones</a>
+                <a href="budget.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-budget">Presupuesto</a>
+                <a href="account.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-account">Mi cuenta</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // Resalta la página activa como tab
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+        const activeTab = document.getElementById('nav-' + currentPage.replace('.html', ''));
+        
+        if (activeTab) {
+            activeTab.classList.remove('text-gray-700');
+            activeTab.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
+        }
+    });
+</script> 

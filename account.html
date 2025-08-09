@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuenta - summa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><filter id="noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .text-brand-primary { color: #1e40af; }
+        .text-gradient {
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .dot-gradient {
+            background-image: linear-gradient(to right, #1e40af, #3b82f6);
+        }
+        .form-input {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #1e40af;
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-100 to-blue-200 text-gray-800">
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+        <!-- Internal Navigation Bar -->
+        <nav class="sticky top-0 z-50 mb-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <a href="dashboard.html" class="text-2xl font-bold text-brand-primary">summa</a>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-white/30 backdrop-blur-xl rounded-full px-4 py-2">
+                        <a href="dashboard.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-dashboard">Dashboard</a>
+                        <a href="transactions.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-transactions">Registrar gasto</a>
+                        <a href="transactions-overview.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-transactions-overview">Detalle transacciones</a>
+                        <a href="budget.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-budget">Presupuesto</a>
+                        <a href="account.html" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-700 hover:bg-white/40" id="nav-account">Mi cuenta</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Account Content -->
+        <section class="max-w-4xl mx-auto">
+            <div class="text-center my-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+                    Mi <span class="text-gradient">Cuenta</span>
+                </h1>
+                <p class="mt-4 text-lg text-gray-700">
+                    Gestiona tu perfil y configuración
+                </p>
+            </div>
+
+            <!-- Profile Information -->
+            <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden mb-8">
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Información del Perfil</h2>
+                            <p class="text-gray-600 text-sm mt-1">Tu información personal</p>
+                        </div>
+                        <button id="editProfileBtn" class="px-4 py-2 text-sm text-brand-primary hover:text-brand-primary/80 font-medium hover:underline transition-colors">
+                            Editar
+                        </button>
+                    </div>
+
+                    <!-- Profile Display (Default View) -->
+                    <div id="profileDisplay" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Nombre</p>
+                                <p class="text-gray-900">Juan Carlos</p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Apellido</p>
+                                <p class="text-gray-900">García</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Correo electrónico</p>
+                                <p class="text-gray-900">juan@example.com</p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Edad</p>
+                                <p class="text-gray-900">28 años</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">Profesión</p>
+                            <p class="text-gray-900">Ingeniero de Software</p>
+                        </div>
+                    </div>
+
+                    <!-- Profile Edit Form (Hidden by default) -->
+                    <form id="profileEditForm" class="space-y-4 hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
+                                <input type="text" value="Juan Carlos" class="w-full px-4 py-3 rounded-lg form-input text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Apellido</label>
+                                <input type="text" value="García" class="w-full px-4 py-3 rounded-lg form-input text-gray-900">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Correo electrónico</label>
+                                <input type="email" value="juan@example.com" class="w-full px-4 py-3 rounded-lg form-input text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Edad</label>
+                                <input type="number" value="28" class="w-full px-4 py-3 rounded-lg form-input text-gray-900">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Profesión</label>
+                            <input type="text" value="Ingeniero de Software" class="w-full px-4 py-3 rounded-lg form-input text-gray-900">
+                        </div>
+                        <div class="flex justify-end space-x-3 pt-4">
+                            <button type="button" id="cancelEditBtn" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 font-medium">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="px-6 py-2 text-sm text-white font-medium bg-[#1e40af] rounded-lg hover:opacity-95 transition-opacity">
+                                Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Settings Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Security Settings -->
+                <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden">
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Seguridad</h3>
+                                <p class="text-gray-600 text-sm mt-1">Protege tu cuenta</p>
+                            </div>
+                            <div class="w-12 h-12 flex items-center justify-center">
+                                <span class="text-gray-500 text-2xl">🔒</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <button id="changePasswordBtn" class="w-full text-left p-4 rounded-lg bg-white/20 hover:bg-white/30 transition-colors">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-medium text-gray-900">Cambiar contraseña</p>
+                                        <p class="text-sm text-gray-600">Actualiza tu contraseña de acceso</p>
+                                    </div>
+                                    <span class="text-gray-400">→</span>
+                                </div>
+                            </button>
+                            <div class="w-full text-left p-4 rounded-lg bg-white/20">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-medium text-gray-900">Autenticación de dos factores</p>
+                                        <p class="text-sm text-gray-600">Añade una capa extra de seguridad</p>
+                                    </div>
+                                    <span class="text-gray-400">→</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Settings -->
+                <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden">
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Notificaciones</h3>
+                                <p class="text-gray-600 text-sm mt-1">Controla tus alertas</p>
+                            </div>
+                            <div class="w-12 h-12 flex items-center justify-center">
+                                <span class="text-gray-500 text-2xl">🔔</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center p-4 rounded-lg bg-white/20">
+                                <div>
+                                    <p class="font-medium text-gray-900">Notificaciones por email</p>
+                                    <p class="text-sm text-gray-600">Resúmenes semanales y alertas</p>
+                                </div>
+                                <input type="checkbox" checked class="h-4 w-4 text-brand-primary focus:ring-brand-primary border-gray-300 rounded">
+                            </div>
+                            <div class="flex justify-between items-center p-4 rounded-lg bg-white/20">
+                                <div>
+                                    <p class="font-medium text-gray-900">Alertas de presupuesto</p>
+                                    <p class="text-sm text-gray-600">Cuando te acerques a tu límite</p>
+                                </div>
+                                <input type="checkbox" checked class="h-4 w-4 text-brand-primary focus:ring-brand-primary border-gray-300 rounded">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Actions -->
+            <div class="rounded-xl bg-white/30 backdrop-blur-xl shadow-2xl overflow-hidden mt-8">
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">Acciones de Cuenta</h3>
+                            <p class="text-gray-600 text-sm mt-1">Gestiona tu cuenta</p>
+                        </div>
+                        <div class="w-12 h-12 flex items-center justify-center">
+                            <span class="text-gray-500 text-2xl">⚙️</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <button id="logoutBtn" class="w-full text-left p-3 rounded-lg bg-white/20 hover:bg-white/30 transition-colors border border-white/10">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-medium text-gray-700">Cerrar sesión</p>
+                                    <p class="text-sm text-gray-500">Salir de tu cuenta</p>
+                                </div>
+                                <span class="text-gray-400 text-sm">→</span>
+                            </div>
+                        </button>
+                        <button class="w-full text-left p-3 rounded-lg bg-white/20 hover:bg-white/30 transition-colors border border-white/10">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-medium text-gray-700">Eliminar cuenta</p>
+                                    <p class="text-sm text-gray-500">Eliminar permanentemente tu cuenta</p>
+                                </div>
+                                <span class="text-gray-400 text-sm">→</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Change Password Modal -->
+    <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-gray-900">Cambiar contraseña</h3>
+                <button id="closePasswordModal" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="passwordForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Contraseña actual</label>
+                    <input type="password" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nueva contraseña</label>
+                    <input type="password" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Confirmar nueva contraseña</label>
+                    <input type="password" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary">
+                </div>
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" id="cancelPasswordBtn" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 font-medium">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-6 py-2 text-sm text-white font-medium bg-[#1e40af] rounded-lg hover:opacity-95 transition-opacity">
+                        Cambiar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Supabase
+        const supabaseUrl = 'https://lvzoiylogngxpdzblxwg.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx2em9peWxvZ25neHBkemJseHdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NTQ0NzEsImV4cCI6MjA2NjEzMDQ3MX0.zMHL5kyzkIszJjaE3i6t1m_P0V8TO-VH9KiDp0e5CPQ';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            const { data: { user } } = await supabase.auth.getUser();
+            
+            if (!user) {
+                // Redirect to login if not authenticated
+                window.location.href = 'login.html';
+                return;
+            }
+
+            console.log('User authenticated:', user.email);
+        });
+
+        // Resalta la página activa como tab
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+            const activeTab = document.getElementById('nav-' + currentPage.replace('.html', ''));
+            
+            if (activeTab) {
+                activeTab.classList.remove('text-gray-700');
+                activeTab.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
+            }
+        });
+
+        // Profile edit functionality
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        const profileDisplay = document.getElementById('profileDisplay');
+        const profileEditForm = document.getElementById('profileEditForm');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+
+        editProfileBtn.addEventListener('click', function() {
+            profileDisplay.classList.add('hidden');
+            profileEditForm.classList.remove('hidden');
+            editProfileBtn.classList.add('hidden');
+        });
+
+        cancelEditBtn.addEventListener('click', function() {
+            profileDisplay.classList.remove('hidden');
+            profileEditForm.classList.add('hidden');
+            editProfileBtn.classList.remove('hidden');
+        });
+
+        // Password modal functionality
+        const changePasswordBtn = document.getElementById('changePasswordBtn');
+        const passwordModal = document.getElementById('passwordModal');
+        const closePasswordModal = document.getElementById('closePasswordModal');
+        const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
+
+        changePasswordBtn.addEventListener('click', function() {
+            passwordModal.classList.remove('hidden');
+        });
+
+        closePasswordModal.addEventListener('click', function() {
+            passwordModal.classList.add('hidden');
+        });
+
+        cancelPasswordBtn.addEventListener('click', function() {
+            passwordModal.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        passwordModal.addEventListener('click', function(e) {
+            if (e.target === passwordModal) {
+                passwordModal.classList.add('hidden');
+            }
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', async function() {
+            try {
+                const { error } = await supabase.auth.signOut();
+                if (error) throw error;
+                
+                // Redirect to landing page after successful logout
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error('Error signing out:', error);
+                alert('Error al cerrar sesión');
+            }
+        });
+    </script>
+
+</body>
+</html> 
